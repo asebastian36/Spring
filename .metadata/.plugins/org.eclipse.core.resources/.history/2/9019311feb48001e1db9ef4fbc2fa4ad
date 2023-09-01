@@ -1,0 +1,16 @@
+package com.bolsadeideas.springboot.web.app.controllers;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+
+@Controller
+public class IndexController {
+	//	ruta para cargar (mappear a una URL)
+	@RequestMapping(value="/index")
+	public String index() {
+		//	este debe ser el nombre de la pagina a crear
+		//	en la carpeta templates
+		return "index";
+	}
+}
