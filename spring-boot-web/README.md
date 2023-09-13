@@ -22,7 +22,7 @@
 **Thymeleaf** es una plantilla de motor de vista que se utiliza para crear vistas HTML en aplicaciones web con Spring Framework. Thymeleaf es una plantilla de motor de vista de código abierto que es fácil de usar y personalizar.
 
 | Dependencia | Descripción |
-|---|---|
+|-------------|-------------|
 | Spring web | Proporciona soporte para crear aplicaciones web con Spring Framework |
 | Spring dev tools | Proporciona herramientas de desarrollo para Spring Framework |
 | Thymeleaf | Es una plantilla de motor de vista que se utiliza para crear vistas HTML en aplicaciones web con Spring Framework |
@@ -129,3 +129,86 @@ Aquí hay algunos ejemplos de cómo utilizar Thymeleaf para crear vistas HTML:
 ```
 
 Thymeleaf es una herramienta versátil que puede utilizarse para crear una variedad de vistas HTML.
+
+## Mandar datos desde el controlador hasta la vista
+
+Opcion 1 con `Model`
+
+```java
+@GetMapping(value={"/index", "/", "/home"})
+	public String index(Model model) {
+		model.addAttribute("titulo", "Hola desde Spring framework");
+		return "index";
+	}
+```
+
+Opcion 2 con `ModelMap`
+
+```java
+@GetMapping(value={"/index", "/", "/home"})
+	public String index(ModelMap model) {
+		model.addAttribute("titulo", "Hola desde Spring framework");
+		return "index";
+	}
+```
+
+Opcion 3 con `Map`
+
+```java
+@GetMapping(value={"/index", "/", "/home"})
+	public String index(Map<String, Object> map) {
+		map.put("titulo", "Hola desde Spring framework");
+		return "index";
+	}
+```
+
+Opcion 4 con `ModelAndView`
+
+```java
+@GetMapping(value={"/index", "/", "/home"})
+	public ModelAndView index(ModelAndView mv) {
+		mv.addObject("titulo", "Hola desde Spring framework");
+		mv.setViewName("index");
+		return mv;
+	}
+```
+
+## Anotacion @ResquestMapping
+
+La anotación `@RequestMapping` es una anotación de Spring Framework que se utiliza para mapear las solicitudes HTTP a los métodos de los controladores.
+
+La anotación `@RequestMapping` se puede utilizar en el nivel de clase o de método. Cuando se utiliza en el nivel de clase, mapea todas las solicitudes HTTP a la clase de controlador. Cuando se utiliza en el nivel de método, mapea las solicitudes HTTP al método del controlador.
+
+La anotación @RequestMapping tiene los siguientes atributos:
+
+* **value:** El atributo `value` especifica la ruta HTTP que se va a mapear.
+* **method:** El atributo `method` especifica el método HTTP que se va a mapear.
+* **consumes:** El atributo `consumes` especifica los tipos MIME que se van a aceptar.
+* **produces:** El atributo `produces` especifica los tipos MIME que se van a producir.
+
+Aquí hay un ejemplo de cómo utilizar la anotación @RequestMapping:
+
+```java
+@Controller
+@RequestMapping("/hello")
+public class HelloController {
+
+    @RequestMapping(method = RequestMethod.GET)
+    public String hello() {
+        return "hello";
+    }
+
+}
+```
+
+Este código mapea todas las solicitudes HTTP a la ruta `/hello` al método `hello()` del controlador `HelloController`. El método `hello()` devuelve la cadena `hello` como respuesta.
+
+La anotación `@RequestMapping` se utiliza para simplificar el desarrollo de aplicaciones web con Spring Framework. La anotación `@RequestMapping` permite mapear las solicitudes HTTP a los métodos de los controladores sin tener que escribir código adicional.
+
+Aquí hay algunas de las ventajas de utilizar la anotación `@RequestMapping`:
+
+* **Simplifica el desarrollo de aplicaciones web:** La anotación @RequestMapping permite mapear las solicitudes HTTP a los métodos de los controladores sin tener que escribir código adicional.
+* **Reduce la posibilidad de errores:** La anotación @RequestMapping ayuda a evitar errores al mapear las solicitudes HTTP a los métodos de los controladores.
+* **Mejora la legibilidad del código:** La anotación @RequestMapping hace que el código sea más legible y fácil de entender.
+
+## Objeto Model

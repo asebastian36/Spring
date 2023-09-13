@@ -1,18 +1,16 @@
 package com.bolsadeideas.springboot.web.app.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/app")
 public class IndexController {
-	//	alternativa: @GetMapping o @PostMapping
-	
-	
-	//	ruta para cargar (mappear a una URL), por defecto el metodo es de tipo GET
-	@GetMapping(value={"/index", "/", "/home"})
-	public String index() {
-		//	este debe ser el nombre de la pagina a crear
-		//	en la carpeta templates
+	@GetMapping(value={"/index", "/", "", "/home"})
+	public String index(Model model) {
+		model.addAttribute("titulo", "Hola desde Spring framework");
 		return "index";
 	}
 }
