@@ -86,7 +86,7 @@ Las herramientas de análisis de Spring dev tools son una serie de herramientas 
 
 Spring dev tools es una herramienta poderosa que puede utilizarse para crear, depurar y analizar aplicaciones web con Spring Framework.
 
-### Thymeleaf 
+### Thymeleaf
 
 Es un motor de plantillas de vista de código abierto que se utiliza para crear vistas HTML en aplicaciones web con Spring Framework. Thymeleaf es un motor de plantillas de vista de alto rendimiento que es fácil de usar y personalizar.
 
@@ -136,41 +136,41 @@ Opcion 1 con `Model`
 
 ```java
 @GetMapping(value={"/index", "/", "/home"})
-	public String index(Model model) {
-		model.addAttribute("titulo", "Hola desde Spring framework");
-		return "index";
-	}
+ public String index(Model model) {
+  model.addAttribute("titulo", "Hola desde Spring framework");
+  return "index";
+ }
 ```
 
 Opcion 2 con `ModelMap`
 
 ```java
 @GetMapping(value={"/index", "/", "/home"})
-	public String index(ModelMap model) {
-		model.addAttribute("titulo", "Hola desde Spring framework");
-		return "index";
-	}
+ public String index(ModelMap model) {
+  model.addAttribute("titulo", "Hola desde Spring framework");
+  return "index";
+ }
 ```
 
 Opcion 3 con `Map`
 
 ```java
 @GetMapping(value={"/index", "/", "/home"})
-	public String index(Map<String, Object> map) {
-		map.put("titulo", "Hola desde Spring framework");
-		return "index";
-	}
+ public String index(Map<String, Object> map) {
+  map.put("titulo", "Hola desde Spring framework");
+  return "index";
+ }
 ```
 
 Opcion 4 con `ModelAndView`
 
 ```java
 @GetMapping(value={"/index", "/", "/home"})
-	public ModelAndView index(ModelAndView mv) {
-		mv.addObject("titulo", "Hola desde Spring framework");
-		mv.setViewName("index");
-		return mv;
-	}
+public ModelAndView index(ModelAndView mv) {
+ mv.addObject("titulo", "Hola desde Spring framework");
+ mv.setViewName("index");
+ return mv;
+}
 ```
 
 ## Anotacion @ResquestMapping
@@ -207,8 +207,90 @@ La anotación `@RequestMapping` se utiliza para simplificar el desarrollo de apl
 
 Aquí hay algunas de las ventajas de utilizar la anotación `@RequestMapping`:
 
-* **Simplifica el desarrollo de aplicaciones web:** La anotación @RequestMapping permite mapear las solicitudes HTTP a los métodos de los controladores sin tener que escribir código adicional.
-* **Reduce la posibilidad de errores:** La anotación @RequestMapping ayuda a evitar errores al mapear las solicitudes HTTP a los métodos de los controladores.
-* **Mejora la legibilidad del código:** La anotación @RequestMapping hace que el código sea más legible y fácil de entender.
+* **Simplifica el desarrollo de aplicaciones web:** La anotación `@RequestMapping` permite mapear las solicitudes HTTP a los métodos de los controladores sin tener que escribir código adicional.
+* **Reduce la posibilidad de errores:** La anotación `@RequestMapping` ayuda a evitar errores al mapear las solicitudes HTTP a los métodos de los controladores.
+* **Mejora la legibilidad del código:** La anotación `@RequestMapping` hace que el código sea más legible y fácil de entender.
 
 ## Objeto Model
+
+> POJO clase simple que contiene atributos para sus datos y metodos getter y setter, puede implementar interfaces como serilizable
+> recomendable no aplicar interfaces de frameworks
+
+## Directiva if en Thymeleaf
+
+La directiva if en Thymeleaf se utiliza para controlar el flujo de ejecución de una plantilla. La directiva if permite mostrar o ocultar contenido en una plantilla en función de una condición.
+
+La directiva if se puede utilizar para realizar una variedad de tareas, como:
+
+* Mostrar o ocultar contenido en función de la condición de una variable.
+* Mostrar o ocultar contenido en función del valor de una cookie o un encabezado de solicitud.
+* Mostrar o ocultar contenido en función de la hora del día.
+
+La directiva if es una herramienta poderosa que se puede utilizar para controlar el flujo de ejecución de una plantilla.
+
+## Directiva each en Thymeleaf
+
+La directiva each de Thymeleaf se utiliza para iterar sobre una colección de datos. La directiva each permite mostrar o procesar cada elemento de una colección en una plantilla.
+
+La directiva each se puede utilizar para realizar una variedad de tareas, como:
+
+* Mostrar una lista de elementos.
+* Procesar una colección de datos.
+* Crear una tabla o una matriz.
+
+La directiva each es una herramienta poderosa que se puede utilizar para iterar sobre colecciones de datos en Thymeleaf.
+
+Aquí hay algunos atributos adicionales de la directiva each:
+
+* **start:** El atributo `start` especifica el índice inicial de la iteración.
+* **end:** El atributo `end` especifica el índice final de la iteración.
+* **step:** El atributo `step` especifica el paso de la iteración.
+* **length:** El atributo `length` especifica la longitud de la colección.
+* **index:** El atributo `index` especifica el índice actual de la iteración.
+* **first:** El atributo `first` especifica si el elemento actual es el primero de la colección.
+* **last:** El atributo `last` especifica si el elemento actual es el último de la colección.
+
+Estos atributos se pueden utilizar para controlar el comportamiento de la iteración.
+
+## Anotacion @ModelAttribute
+
+La anotación @ModelAttribute en Spring Framework se utiliza para añadir objetos al modelo de vista. El modelo de vista es una colección de objetos que se utilizan para representar los datos de la aplicación en las vistas.
+
+La anotación @ModelAttribute se puede utilizar en el nivel de método o de clase. Cuando se utiliza en el nivel de clase, añade un objeto al modelo de vista para todos los métodos del controlador. Cuando se utiliza en el nivel de método, añade un objeto al modelo de vista solo para ese método.
+
+La anotación @ModelAttribute tiene los siguientes atributos:
+
+* **name:** El atributo `name` especifica el nombre del objeto que se añade al modelo de vista.
+* **binding:** El atributo `binding` especifica si el objeto se une al modelo de vista de forma estricta o no.
+
+Cuando se utiliza la anotación @ModelAttribute, el objeto se añade al modelo de vista con el nombre especificado en el atributo `name`. El objeto se puede utilizar en las vistas para representar los datos de la aplicación.
+
+Aquí hay un ejemplo de cómo utilizar la anotación @ModelAttribute:
+
+```java
+@Controller
+public class HelloController {
+
+    @ModelAttribute("user")
+    public User getUser() {
+        return new User("John Doe", "johndoe@example.com");
+    }
+
+    @GetMapping("/hello")
+    public String hello(Model model) {
+        model.addAttribute("name", "World");
+        return "hello";
+    }
+
+}
+```
+
+Este código añade un objeto `User` al modelo de vista con el nombre `user`. El objeto `User` tiene dos propiedades: `name` y `email`.
+
+La anotación @ModelAttribute se puede utilizar para realizar una variedad de tareas, como:
+
+* Agregar objetos al modelo de vista para su uso en las vistas.
+* Precargar datos en el modelo de vista.
+* Vincular objetos al modelo de vista de forma estricta o no.
+
+La anotación @ModelAttribute es una herramienta poderosa que se puede utilizar para controlar el contenido de las vistas.
