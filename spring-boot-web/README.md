@@ -294,3 +294,63 @@ La anotación @ModelAttribute se puede utilizar para realizar una variedad de ta
 * Vincular objetos al modelo de vista de forma estricta o no.
 
 La anotación @ModelAttribute es una herramienta poderosa que se puede utilizar para controlar el contenido de las vistas.
+
+## Anotacion @RequestParam
+
+La anotación @RequestParam es una anotación de Spring MVC que se utiliza para vincular un parámetro de método a un parámetro de solicitud. Esto permite pasar datos de la solicitud HTTP al método que maneja la solicitud.
+
+La anotación @RequestParam tiene los siguientes atributos:
+
+* **name:** El nombre del parámetro de solicitud. Por defecto, el nombre del parámetro de solicitud es el mismo que el nombre del parámetro de método.
+* **required:** Indica si el parámetro de solicitud es obligatorio. Por defecto, los parámetros de solicitud son obligatorios.
+* **defaultValue:** El valor predeterminado del parámetro de solicitud. Si el parámetro de solicitud no está presente en la solicitud, se utilizará este valor predeterminado.
+
+Por ejemplo, el siguiente código muestra cómo utilizar la anotación @RequestParam para vincular un parámetro de método a un parámetro de solicitud:
+
+```java
+@RestController
+public class MyController {
+
+    @GetMapping("/my-endpoint")
+    public String myEndpoint(@RequestParam(name = "name") String name) {
+        // El valor de name se obtendrá del parámetro de solicitud "name"
+        return "Hello, " + name;
+    }
+}
+```
+
+En este ejemplo, el método `myEndpoint()` tiene un parámetro de método llamado `name`. El parámetro de método `name` está vinculado al parámetro de solicitud `name`. El parámetro de solicitud `name` es obligatorio, por lo que si el parámetro de solicitud no está presente en la solicitud, se lanzará una excepción.
+
+También puedes utilizar la anotación @RequestParam para vincular un parámetro de método a un parámetro de solicitud que tenga un nombre diferente. Por ejemplo, el siguiente código muestra cómo utilizar la anotación @RequestParam para vincular un parámetro de método a un parámetro de solicitud llamado "firstname":
+
+```java
+@RestController
+public class MyController {
+
+    @GetMapping("/my-endpoint")
+    public String myEndpoint(@RequestParam(name = "name") String firstname) {
+        // El valor de name se obtendrá del parámetro de solicitud "firstname"
+        return "Hello, " + firstname;
+    }
+}
+```
+
+En este ejemplo, el método `myEndpoint()` tiene un parámetro de método llamado `name`. El parámetro de método `name` está vinculado al parámetro de solicitud `firstname`. El parámetro de solicitud `firstname` es obligatorio, por lo que si el parámetro de solicitud no está presente en la solicitud, se lanzará una excepción.
+
+También puedes utilizar la anotación @RequestParam para vincular un parámetro de método a un parámetro de solicitud que tenga un valor predeterminado. Por ejemplo, el siguiente código muestra cómo utilizar la anotación @RequestParam para vincular un parámetro de método a un parámetro de solicitud llamado "name" con un valor predeterminado de "John Doe":
+
+```java
+@RestController
+public class MyController {
+
+    @GetMapping("/my-endpoint")
+    public String myEndpoint(@RequestParam(name = "name", defaultValue = "John Doe") String name) {
+        // El valor de name se obtendrá del parámetro de solicitud "name" o del valor predeterminado "John Doe"
+        return "Hello, " + name;
+    }
+}
+```
+
+En este ejemplo, el método `myEndpoint()` tiene un parámetro de método llamado `name`. El parámetro de método `name` está vinculado al parámetro de solicitud `name`. El parámetro de solicitud `name` no es obligatorio, por lo que si el parámetro de solicitud no está presente en la solicitud, se utilizará el valor predeterminado de "John Doe".
+
+La anotación @RequestParam es una herramienta útil para pasar datos de la solicitud HTTP a los métodos que manejan las solicitudes.

@@ -40,4 +40,13 @@ public class IndexController {
 
 		return "listar";
 	}
+
+	@ModelAttribute("usuarios")
+	public List<Usuario> poblarUsuarios() {
+		List<Usuario> usuarios = new ArrayList<>();
+		usuarios.add(new Usuario("Angel", "Franco", "angel@email.com"));
+		usuarios.add(new Usuario("Diego", "Franco", "diego@email.com"));
+		usuarios.add(new Usuario("Chucho", "Rodriguez", "chucho@email.com"));
+		return usuarios;
+	}
 }
