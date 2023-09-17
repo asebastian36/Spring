@@ -354,3 +354,136 @@ public class MyController {
 En este ejemplo, el método `myEndpoint()` tiene un parámetro de método llamado `name`. El parámetro de método `name` está vinculado al parámetro de solicitud `name`. El parámetro de solicitud `name` no es obligatorio, por lo que si el parámetro de solicitud no está presente en la solicitud, se utilizará el valor predeterminado de "John Doe".
 
 La anotación @RequestParam es una herramienta útil para pasar datos de la solicitud HTTP a los métodos que manejan las solicitudes.
+
+### Obteniendo varios parametros de la URL con @RequestParam
+
+Ejemplo de un metodo de la clase controlador que pone dos argumentos en la URL, uno de tipo `String` y otro de tipo `Integer`
+
+```java
+@GetMapping("/mix-params")
+    public String param(@RequestParam String saludo, @RequestParam Integer numero, Model model) {
+        model.addAttribute("titulo", "Recibi un parametro del Request HTTP GET - URL");
+        model.addAttribute("resultado", "saludo enviado es: " + saludo + " y el numero es: " + numero);
+        return "params/ver";
+    }
+```
+
+Otra alternativa accediendo a atributos especificados en otros metodos con la clase `HttpServletRequest`
+
+```java
+@GetMapping("/mix-params")
+    public String param(HttpServletRequest request, Model model) {
+        String saludo = request.getParameter("saludo");
+        Integer numero = Integer.parseInt(request.getParameter("numero"));
+        model.addAttribute("titulo", "Recibi un parametro del Request HTTP GET - URL");
+        model.addAttribute("resultado", "saludo enviado es: " + saludo + " y el numero es: " + numero);
+        return "params/ver";
+    }
+```
+
+## Anotacion @PathVariable
+
+La anotación @PathVariable es una anotación de Spring MVC que se utiliza para vincular un parámetro de método a una variable de ruta. Esto permite pasar datos de la ruta de la solicitud al método que maneja la solicitud.
+
+La anotación @PathVariable tiene los siguientes atributos:
+
+* **name:** El nombre de la variable de ruta.
+
+Por ejemplo, el siguiente código muestra cómo utilizar la anotación @PathVariable para vincular un parámetro de método a una variable de ruta:
+
+```java
+@RestController
+public class MyController {
+
+    @GetMapping("/users/{id}")
+    public String getUserById(@PathVariable Long id) {
+        // El valor de id se obtendrá de la variable de ruta "id"
+        return "El usuario con ID " + id + " fue encontrado";
+    }
+}
+```
+
+En este ejemplo, el método `getUserById()` tiene un parámetro de método llamado `id`. El parámetro de método `id` está vinculado a la variable de ruta `id`. La variable de ruta `id` es obligatoria, por lo que si la variable de ruta no está presente en la solicitud, se lanzará una excepción.
+
+También puedes utilizar la anotación @PathVariable para vincular un parámetro de método a una variable de ruta que tenga un nombre diferente. Por ejemplo, el siguiente código muestra cómo utilizar la anotación @PathVariable para vincular un parámetro de método a una variable de ruta llamada "userId":
+
+```java
+@RestController
+public class MyController {
+
+    @GetMapping("/users/{id}")
+    public String getUserById(@PathVariable(name = "userId") Long id) {
+        // El valor de id se obtendrá de la variable de ruta "userId"
+        return "El usuario con ID " + id + " fue encontrado";
+    }
+}
+```
+
+En este ejemplo, el método `getUserById()` tiene un parámetro de método llamado `id`. El parámetro de método `id` está vinculado a la variable de ruta `userId`. La variable de ruta `userId` es obligatoria, por lo que si la variable de ruta no está presente en la solicitud, se lanzará una excepción.
+
+La anotación @PathVariable es una herramienta útil para pasar datos de la ruta de la solicitud a los métodos que manejan las solicitudes.
+
+### Obtener varios parametros de la ruta con @PathVariable
+
+Codigo del ejemplo
+
+```java
+@GetMapping("/string/{texto}/{numero}")
+    public String variables(@PathVariable String texto, @PathVariable Integer numero, Model modelo) {
+        modelo.addAttribute("titulo", "Recibi parametros de la ruta @PathVariable");
+        modelo.addAttribute("resultado", "El texto enviado es: " + texto + " y el numero enviado es: " + numero);
+        return "variables/ver";
+    }
+```
+
+En este caso solicitamos un numero y una cadena de texto.
+
+## Anotacion @Variable
+
+La anotación @Variable es una anotación de Spring Boot que se utiliza para inyectar variables de entorno en un bean. Las variables de entorno son variables que se definen fuera de la aplicación y se pueden utilizar para configurar la aplicación.
+
+La anotación @Variable tiene los siguientes atributos:
+
+* **name:** El nombre de la variable de entorno.
+* **required:** Indica si la variable de entorno es obligatoria.
+* **defaultValue:** El valor predeterminado de la variable de entorno. Si la variable de entorno no está presente en el entorno, se utilizará este valor predeterminado.
+
+Por ejemplo, el siguiente código muestra cómo utilizar la anotación @Variable para inyectar una variable de entorno llamada `my_variable` en un bean:
+
+```java
+@Component
+public class MyBean {
+
+    @Value("${my_variable}")
+    private String myVariable;
+
+    public String getMyVariable() {
+        return myVariable;
+    }
+}
+```
+
+En este ejemplo, el bean `MyBean` tiene una propiedad llamada `myVariable`. La propiedad `myVariable` está inyectada con la variable de entorno `my_variable`. La variable de entorno `my_variable` es obligatoria, por lo que si la variable de entorno no está presente en el entorno, se lanzará una excepción.
+
+También puedes utilizar la anotación @Variable para inyectar una variable de entorno que tenga un valor predeterminado. Por ejemplo, el siguiente código muestra cómo utilizar la anotación @Variable para inyectar una variable de entorno llamada `my_variable` con un valor predeterminado de "default":
+
+```java
+@Component
+public class MyBean {
+
+    @Value("${my_variable:default}")
+    private String myVariable;
+
+    public String getMyVariable() {
+        return myVariable;
+    }
+}
+```
+
+En este ejemplo, el bean `MyBean` tiene una propiedad llamada `myVariable`. La propiedad `myVariable` está inyectada con la variable de entorno `my_variable`. La variable de entorno `my_variable` no es obligatoria, por lo que si la variable de entorno no está presente en el entorno, se utilizará el valor predeterminado de "default".
+
+La anotación @Variable es una herramienta útil para inyectar variables de entorno en los beans. Las variables de entorno pueden utilizarse para configurar la aplicación de forma dinámica.
+
+En cuanto a la diferencia entre @Variable y @Value, ambas anotaciones se utilizan para inyectar valores en los beans. La principal diferencia es que @Variable se utiliza para inyectar variables de entorno, mientras que @Value se utiliza para inyectar valores de otras fuentes, como propiedades de archivo, variables de sistema o valores constantes.
+
+En general, es recomendable utilizar @Variable para inyectar variables de entorno. Esto se debe a que @Variable es más flexible que @Value y permite inyectar variables de entorno de forma dinámica.
