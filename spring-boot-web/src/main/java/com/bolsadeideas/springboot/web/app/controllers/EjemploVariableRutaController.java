@@ -13,6 +13,7 @@ public class EjemploVariableRutaController {
     @GetMapping("/")
     public String index(Model modelo) {
         modelo.addAttribute("titulo", "Enviar parametros de la ruta");
+
         return "variables/index";
     }
 
@@ -20,6 +21,7 @@ public class EjemploVariableRutaController {
     public String variables(@PathVariable String texto, Model modelo) {
         modelo.addAttribute("titulo", "Recibi parametros de la ruta @PathVariable");
         modelo.addAttribute("resultado", "El texto enviado es: " + texto);
+
         return "variables/ver";
     }
 
@@ -27,6 +29,7 @@ public class EjemploVariableRutaController {
     public String variables(@PathVariable String texto, @PathVariable Integer numero, Model modelo) {
         modelo.addAttribute("titulo", "Recibi parametros de la ruta @PathVariable");
         modelo.addAttribute("resultado", "El texto enviado es: " + texto + " y el numero enviado es: " + numero);
+
         return "variables/ver";
     }
 }

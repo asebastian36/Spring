@@ -5,22 +5,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping("params")
+@RequestMapping("/params")
 public class EjemploParamsController {
     @GetMapping("/string")
     public String param(@RequestParam(required = false, name = "texto") String texto, Model model) {
         model.addAttribute("titulo", "Recibi un parametro del Request HTTP GET - URL");
         model.addAttribute("resultado", "texto enviado es: " + texto);
+
         return "params/ver";
     }
 
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("titulo", "Envio parametros");
+
         return "params/index";
     }
 
@@ -28,6 +29,7 @@ public class EjemploParamsController {
     public String param(@RequestParam String saludo, @RequestParam Integer numero, Model model) {
         model.addAttribute("titulo", "Recibi un parametro del Request HTTP GET - URL");
         model.addAttribute("resultado", "saludo enviado es: " + saludo + " y el numero es: " + numero);
+
         return "params/ver";
     }
 
@@ -45,6 +47,7 @@ public class EjemploParamsController {
 
         model.addAttribute("titulo", "Recibi un parametro del Request HTTP GET - URL");
         model.addAttribute("resultado", "saludo enviado es: " + saludo + " y el numero es: " + numero);
+
         return "params/ver";
     }
 }

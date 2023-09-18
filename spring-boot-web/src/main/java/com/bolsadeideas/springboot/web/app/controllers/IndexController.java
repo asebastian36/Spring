@@ -10,10 +10,11 @@ import com.bolsadeideas.springboot.web.app.models.Usuario;
 @RequestMapping("/app")
 public class IndexController {
 
-	@GetMapping(value = { "/index", "/", "", "/home" })
+	@GetMapping(value = { "/index", "", "/", "/home" })
 	public String index(Model model) {
 		model.addAttribute("titulo", "Hola desde Spring framework");
-		return "index";
+
+		return "inicio";
 	}
 
 	@RequestMapping("/perfil")
@@ -41,12 +42,13 @@ public class IndexController {
 		return "listar";
 	}
 
-	@ModelAttribute("usuarios")
+	@ModelAttribute("/usuarios")
 	public List<Usuario> poblarUsuarios() {
 		List<Usuario> usuarios = new ArrayList<>();
 		usuarios.add(new Usuario("Angel", "Franco", "angel@email.com"));
 		usuarios.add(new Usuario("Diego", "Franco", "diego@email.com"));
 		usuarios.add(new Usuario("Chucho", "Rodriguez", "chucho@email.com"));
+
 		return usuarios;
 	}
 }
