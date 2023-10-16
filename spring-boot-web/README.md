@@ -438,17 +438,17 @@ Codigo del ejemplo
 
 En este caso solicitamos un numero y una cadena de texto.
 
-## Anotacion @Variable
+## Anotacion @Value
 
-La anotación @Variable es una anotación de Spring Boot que se utiliza para inyectar variables de entorno en un bean. Las variables de entorno son variables que se definen fuera de la aplicación y se pueden utilizar para configurar la aplicación.
+La anotación @Value es una anotación de Spring Boot que se utiliza para inyectar variables de entorno en un bean. Las variables de entorno son variables que se definen fuera de la aplicación y se pueden utilizar para configurar la aplicación.
 
-La anotación @Variable tiene los siguientes atributos:
+La anotación @Value tiene los siguientes atributos:
 
 * **name:** El nombre de la variable de entorno.
 * **required:** Indica si la variable de entorno es obligatoria.
 * **defaultValue:** El valor predeterminado de la variable de entorno. Si la variable de entorno no está presente en el entorno, se utilizará este valor predeterminado.
 
-Por ejemplo, el siguiente código muestra cómo utilizar la anotación @Variable para inyectar una variable de entorno llamada `my_variable` en un bean:
+Por ejemplo, el siguiente código muestra cómo utilizar la anotación @Value para inyectar una variable de entorno llamada `my_variable` en un bean:
 
 ```java
 @Component
@@ -465,7 +465,7 @@ public class MyBean {
 
 En este ejemplo, el bean `MyBean` tiene una propiedad llamada `myVariable`. La propiedad `myVariable` está inyectada con la variable de entorno `my_variable`. La variable de entorno `my_variable` es obligatoria, por lo que si la variable de entorno no está presente en el entorno, se lanzará una excepción.
 
-También puedes utilizar la anotación @Variable para inyectar una variable de entorno que tenga un valor predeterminado. Por ejemplo, el siguiente código muestra cómo utilizar la anotación @Variable para inyectar una variable de entorno llamada `my_variable` con un valor predeterminado de "default":
+También puedes utilizar la anotación @Value para inyectar una variable de entorno que tenga un valor predeterminado. Por ejemplo, el siguiente código muestra cómo utilizar la anotación @Value para inyectar una variable de entorno llamada `my_variable` con un valor predeterminado de "default":
 
 ```java
 @Component
@@ -482,8 +482,75 @@ public class MyBean {
 
 En este ejemplo, el bean `MyBean` tiene una propiedad llamada `myVariable`. La propiedad `myVariable` está inyectada con la variable de entorno `my_variable`. La variable de entorno `my_variable` no es obligatoria, por lo que si la variable de entorno no está presente en el entorno, se utilizará el valor predeterminado de "default".
 
-La anotación @Variable es una herramienta útil para inyectar variables de entorno en los beans. Las variables de entorno pueden utilizarse para configurar la aplicación de forma dinámica.
+La anotación @Value es una herramienta útil para inyectar variables de entorno en los beans. Las variables de entorno pueden utilizarse para configurar la aplicación de forma dinámica.
 
-En cuanto a la diferencia entre @Variable y @Value, ambas anotaciones se utilizan para inyectar valores en los beans. La principal diferencia es que @Variable se utiliza para inyectar variables de entorno, mientras que @Value se utiliza para inyectar valores de otras fuentes, como propiedades de archivo, variables de sistema o valores constantes.
+En cuanto a la diferencia entre @Value y @Value, ambas anotaciones se utilizan para inyectar valores en los beans. La principal diferencia es que @Value se utiliza para inyectar variables de entorno, mientras que @Value se utiliza para inyectar valores de otras fuentes, como propiedades de archivo, variables de sistema o valores constantes.
 
-En general, es recomendable utilizar @Variable para inyectar variables de entorno. Esto se debe a que @Variable es más flexible que @Value y permite inyectar variables de entorno de forma dinámica.
+En general, es recomendable utilizar @Value para inyectar variables de entorno. Esto se debe a que @Value es más flexible que @Value y permite inyectar variables de entorno de forma dinámica.
+
+## Redirect y Forward
+
+En Spring Boot, redirect y forward son dos mecanismos que se utilizan para redirigir una solicitud a otra URL. La principal diferencia entre los dos es que redirect genera una nueva solicitud HTTP, mientras que forward redirige la solicitud HTTP actual sin generar una nueva solicitud.
+
+### Redirect
+
+Un redirect genera una nueva solicitud HTTP a la URL especificada. La nueva solicitud se envía al cliente, que luego la procesa como una solicitud HTTP normal.
+
+Un redirect se utiliza generalmente para redirigir a una página diferente después de que se haya completado una tarea. Por ejemplo, si un usuario se registra en un sitio web, puede ser redirigido a su página de perfil.
+
+Para realizar un redirect en Spring Boot, puedes utilizar el método `redirect()` de la clase `ResponseEntity`. Este método toma un objeto `URI` como parámetro, que especifica la URL a la que se debe redirigir la solicitud.
+
+Por ejemplo, el siguiente código redirige la solicitud a la URL `/success`:
+
+```java
+@Controller
+public class HomeController {
+
+    @GetMapping("/")
+    public ResponseEntity<String> index() {
+        return ResponseEntity.redirect("/success");
+    }
+}
+```
+
+### Forward
+
+Un forward redirige la solicitud HTTP actual a la URL especificada sin generar una nueva solicitud. La solicitud actual se envía al servidor, que luego la procesa como una solicitud HTTP normal.
+
+Un forward se utiliza generalmente para redirigir a una página diferente dentro de la misma aplicación. Por ejemplo, si un usuario visita una página que requiere que esté autenticado, puede ser redirigido a la página de inicio de sesión.
+
+Para realizar un forward en Spring Boot, puedes utilizar el método `forward()` de la clase `RequestDispatcher`. Este método toma un objeto `String` como parámetro, que especifica la URL a la que se debe redirigir la solicitud.
+
+Por ejemplo, el siguiente código redirige la solicitud a la URL `/login`:
+
+```java
+@Controller
+public class HomeController {
+
+    @GetMapping("/")
+    public String index() {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/login");
+        dispatcher.forward(request, response);
+
+        return null;
+    }
+}
+```
+
+En general, se recomienda utilizar redirect cuando se desea redirigir a una página diferente fuera de la aplicación actual. Por otro lado, se recomienda utilizar forward cuando se desea redirigir a una página diferente dentro de la misma aplicación.
+
+## Deploy en local
+
+primero se va a la terminal a la ruta raiz del proyecto, para ejecutar este comando:
+
+> Funciona en los tres s.o
+
+```shell
+./mvnw package
+```
+
+Despues se busca el jar generado y se ejecuta usando:
+
+```shell
+java -jar .\target\spring-boot-web-0.0.1-SNAPSHOT.jar
+```
