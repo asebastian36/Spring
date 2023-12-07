@@ -320,7 +320,7 @@ La anotación @Qualifier se puede utilizar para especificar la implementación e
 
 En general, la anotación @Qualifier es una anotación útil que se puede utilizar para especificar la implementación específica de una dependencia que se debe inyectar.
 
-## Anotacion Primary
+### Anotacion Primary
 
 La anotación @Primary se utiliza en Spring Boot para indicar que una implementación de una dependencia es la implementación primaria. La implementación primaria es la implementación que se utilizará por defecto si no se especifica ninguna implementación específica.
 
@@ -355,4 +355,119 @@ Aquí hay algunos ejemplos de cómo se pueden utilizar las anotaciones @Qualifie
 * **Si tenemos una clase `MyClass` que necesita una dependencia de la clase `MyDependency` y tenemos dos implementaciones de `MyDependency`, podemos utilizar la anotación @Qualifier para especificar la implementación específica que queremos inyectar. Por ejemplo, podemos utilizar la anotación @Qualifier con el valor "my-dependency-implementation-1" para inyectar la primera implementación de `MyDependency` y la anotación @Qualifier con el valor "my-dependency-implementation-2" para inyectar la segunda implementación de `MyDependency`.**
 * **Si tenemos una clase `MyClass` que necesita una dependencia de la clase `MyDependency` y solo tenemos una implementación de `MyDependency`, podemos utilizar la anotación @Primary para indicar que esa implementación es la implementación primaria.**
 
+### Anotacion Configuration
 
+La anotación @Configuration se utiliza en Spring Boot para indicar que una clase es una clase de configuración. Una clase de configuración es una clase que proporciona información de configuración para Spring Boot.
+
+La anotación @Configuration se utiliza en combinación con otras anotaciones, como @Bean y @ComponentScan. Por ejemplo, el siguiente código muestra cómo utilizar la anotación @Configuration:
+
+```java
+@Configuration
+public class MyConfiguration {
+
+    @Bean
+    public MyBean myBean() {
+        return new MyBean();
+    }
+
+    @ComponentScan("com.example.myapp")
+    public void scan() {
+    }
+}
+```
+
+En este ejemplo, la clase `MyConfiguration` es una clase de configuración. La clase `MyConfiguration` proporciona dos elementos de configuración:
+
+* **Un bean de la clase `MyBean`.** El bean de `MyBean` se crea utilizando el método `myBean()`.
+* **Una anotación @ComponentScan que indica a Spring Boot que escanee el paquete `com.example.myapp` en busca de componentes.**
+
+Spring Boot utiliza la anotación @Configuration para determinar qué clases son clases de configuración. Spring Boot utilizará las clases de configuración para obtener información de configuración para la aplicación.
+
+La anotación @Configuration es una anotación útil que se puede utilizar para proporcionar información de configuración para Spring Boot.
+
+Aquí hay algunos ejemplos de cómo se puede utilizar la anotación @Configuration:
+
+* **Se puede utilizar la anotación @Configuration para proporcionar beans a Spring Boot.**
+* **Se puede utilizar la anotación @Configuration para indicar a Spring Boot que escanee un paquete en busca de componentes.**
+* **Se puede utilizar la anotación @Configuration para proporcionar configuraciones para otros elementos de Spring Boot, como los filtros o los interceptores.**
+
+### Anotacion Bean
+
+La anotación @Bean se utiliza en Spring Boot para indicar que un método devuelve un bean. Un bean es un objeto que se crea y administra por Spring Boot.
+
+La anotación @Bean se utiliza en combinación con la anotación @Configuration. Por ejemplo, el siguiente código muestra cómo utilizar la anotación @Bean:
+
+```java
+@Configuration
+public class MyConfiguration {
+
+    @Bean
+    public MyBean myBean() {
+        return new MyBean();
+    }
+}
+```
+
+En este ejemplo, la clase `MyConfiguration` es una clase de configuración. La clase `MyConfiguration` proporciona un bean de la clase `MyBean`. El bean de `MyBean` se crea utilizando el método `myBean()`.
+
+Spring Boot utiliza la anotación @Bean para determinar qué métodos devuelven beans. Spring Boot creará los beans que se devuelven por los métodos anotados con @Bean.
+
+La anotación @Bean es una anotación útil que se puede utilizar para crear beans en Spring Boot.
+
+Aquí hay algunos ejemplos de cómo se puede utilizar la anotación @Bean:
+
+* **Se puede utilizar la anotación @Bean para crear objetos simples, como una instancia de una clase.**
+* **Se puede utilizar la anotación @Bean para crear objetos complejos, como un objeto que se crea utilizando una fábrica.**
+* **Se puede utilizar la anotación @Bean para crear objetos que dependen de otros objetos.**
+
+En general, la anotación @Bean es una anotación versátil que se puede utilizar para crear una amplia variedad de beans en Spring Boot.
+
+### Cuando declarar componentes con anotaciones o mediante una clase de configuración
+
+La decisión de declarar componentes con anotaciones o mediante una clase de configuración depende de varios factores, entre ellos:
+
+* **El grado de control que se necesita sobre la creación de beans.** Si se necesita un control completo sobre la creación de beans, es mejor utilizar una clase de configuración.
+* **La necesidad de reutilizar beans.** Si se necesita reutilizar beans en diferentes clases o módulos, es mejor utilizar una clase de configuración.
+* **La simplicidad de la aplicación.** Si la aplicación es simple, puede ser suficiente declarar componentes con anotaciones.
+
+En general, se recomienda utilizar anotaciones para declarar componentes cuando:
+
+* **Los componentes son simples y no requieren un control completo sobre su creación.**
+* **Los componentes no necesitan ser reutilizados en diferentes clases o módulos.**
+* **La aplicación es simple y no requiere una gran cantidad de configuración.**
+
+Por ejemplo, si tenemos una clase `MyBean` que solo necesita una instancia, podemos declararla con una anotación:
+
+```java
+@Component
+public class MyBean {
+
+    public void doSomething() {
+        // ...
+    }
+}
+```
+
+En este caso, no necesitamos un control completo sobre la creación de `MyBean`. Tampoco necesitamos reutilizar `MyBean` en diferentes clases o módulos. Y la aplicación es simple, por lo que no requiere una gran cantidad de configuración.
+
+Por otro lado, si tenemos una clase `MyConfiguration` que proporciona varios beans, podemos declararlos en la clase de configuración:
+
+```java
+@Configuration
+public class MyConfiguration {
+
+    @Bean
+    public MyBean myBean() {
+        return new MyBean();
+    }
+
+    @Bean
+    public MyOtherBean myOtherBean() {
+        return new MyOtherBean();
+    }
+}
+```
+
+En este caso, necesitamos un control completo sobre la creación de `MyBean` y `MyOtherBean`. También necesitamos reutilizar `MyBean` y `MyOtherBean` en diferentes clases. Y la aplicación es lo suficientemente compleja como para requerir una gran cantidad de configuración.
+
+En última instancia, la decisión de declarar componentes con anotaciones o mediante una clase de configuración es una decisión de diseño que debe tomarse en función de las necesidades específicas de la aplicación.

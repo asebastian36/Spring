@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 @Controller
 @RequestMapping("/app")
 public class IndexController {
-
     //  para inyectar el servicio con la anotacion primary
     @Autowired
     private IServicio servicio;
@@ -17,7 +17,7 @@ public class IndexController {
     * para inyectar otro servicio que no tenga la anotacion primary:
     *
     * @Autowired
-    * @Qualifier(""ServicioOtro)
+    * @Qualifier("ServicioOtro")
     *private IServicio servicio;
     *
     * */
@@ -27,5 +27,4 @@ public class IndexController {
         model.addAttribute("servicio", servicio.operacion());
         return "index";
     }
-
 }
