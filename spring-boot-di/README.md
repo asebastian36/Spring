@@ -471,3 +471,391 @@ public class MyConfiguration {
 En este caso, necesitamos un control completo sobre la creación de `MyBean` y `MyOtherBean`. También necesitamos reutilizar `MyBean` y `MyOtherBean` en diferentes clases. Y la aplicación es lo suficientemente compleja como para requerir una gran cantidad de configuración.
 
 En última instancia, la decisión de declarar componentes con anotaciones o mediante una clase de configuración es una decisión de diseño que debe tomarse en función de las necesidades específicas de la aplicación.
+
+## Ciclo de vida de los componentes
+
+El ciclo de vida de los componentes en Spring Boot es el proceso que sigue un componente desde su creación hasta su destrucción. El ciclo de vida de un componente está controlado por Spring Boot, y se puede personalizar mediante anotaciones.
+
+El ciclo de vida de un componente en Spring Boot consta de las siguientes etapas:
+
+* **Registro:** En esta etapa, Spring Boot registra el componente en el contenedor de beans.
+* **Instanción:** En esta etapa, Spring Boot crea una instancia del componente.
+* **Inicialización:** En esta etapa, Spring Boot inicializa el componente.
+* **Inyección de dependencias:** En esta etapa, Spring Boot inyecta las dependencias del componente.
+* **Uso:** En esta etapa, el componente se utiliza.
+* **Destrucción:** En esta etapa, Spring Boot destruye el componente.
+
+Las etapas de registro e instanciación son obligatorias para todos los componentes. Las etapas de inicialización, inyección de dependencias y uso son opcionales. La etapa de destrucción solo se aplica a los componentes que tienen un alcance mayor que `singleton`.
+
+**Registro**
+
+El registro de un componente se realiza mediante la anotación `@Component`. Esta anotación indica a Spring Boot que el componente debe registrarse en el contenedor de beans.
+
+```
+@Component
+public class MyComponent {
+
+}
+```
+
+**Instanción**
+
+La instanciación de un componente se realiza mediante el contenedor de beans. El contenedor de beans utiliza una estrategia de creación de beans para crear una instancia del componente.
+
+La estrategia de creación de beans predeterminada es `singleton`. Esto significa que Spring Boot creará una única instancia del componente y la utilizará para todas las solicitudes.
+
+También se pueden utilizar otras estrategias de creación de beans, como `prototype` o `request`.
+
+**Inicialización**
+
+La inicialización de un componente se realiza mediante el método `init()`. Este método se invoca una vez que se ha creado el componente.
+
+El método `init()` se puede utilizar para realizar cualquier tarea de inicialización que sea necesaria para el componente.
+
+**Inyección de dependencias**
+
+La inyección de dependencias se realiza mediante anotaciones, como `@Autowired`. Estas anotaciones indican a Spring Boot que debe inyectar las dependencias del componente.
+
+Las dependencias se pueden inyectar en los constructores, los métodos setter o los campos de los componentes.
+
+**Uso**
+
+El componente se utiliza cuando se invoca un método del componente o cuando se accede a un atributo del componente.
+
+**Destrucción**
+
+La destrucción de un componente se realiza mediante el método `destroy()`. Este método se invoca una vez que el componente ya no es necesario.
+
+El método `destroy()` se puede utilizar para realizar cualquier tarea de limpieza que sea necesaria para el componente.
+
+**Personalización del ciclo de vida**
+
+El ciclo de vida de un componente se puede personalizar mediante anotaciones. Las anotaciones que se pueden utilizar para personalizar el ciclo de vida de un componente son:
+
+* **@PostConstruct:** Esta anotación indica a Spring Boot que se debe llamar al método anotado después de que se haya inicializado el componente.
+* **@PreDestroy:** Esta anotación indica a Spring Boot que se debe llamar al método anotado antes de que se destruya el componente.
+
+Por ejemplo, el siguiente código muestra cómo utilizar la anotación `@PostConstruct` para realizar una tarea de inicialización:
+
+```
+@Component
+public class MyComponent {
+
+    @PostConstruct
+    public void init() {
+        // ...
+    }
+
+}
+```
+
+En este caso, el método `init()` se invocará una vez que se haya creado el componente.
+
+### Anotacion PostConstruct
+
+La anotación `@PostConstruct` se utiliza en Spring Boot para indicar que un método debe ser ejecutado después de que se haya inicializado un bean.
+
+La anotación `@PostConstruct` se utiliza en combinación con la anotación `@Component`. Por ejemplo, el siguiente código muestra cómo utilizar la anotación `@PostConstruct` para realizar una tarea de inicialización:
+
+```java
+@Component
+public class MyComponent {
+
+    @PostConstruct
+    public void init() {
+        // ...
+    }
+
+}
+```
+
+En este caso, el método `init()` se invocará una vez que se haya creado el componente.
+
+El método anotado con `@PostConstruct` debe ser público y no debe tener argumentos. El método se puede utilizar para realizar cualquier tarea de inicialización que sea necesaria para el componente.
+
+Por ejemplo, el siguiente código muestra cómo utilizar el método `init()` para inicializar una conexión a una base de datos:
+
+```java
+@Component
+public class MyComponent {
+
+    @PostConstruct
+    public void init() {
+        // Inicializa la conexión a la base de datos
+    }
+
+}
+```
+
+Es importante tener en cuenta que el método `init()` se invocará antes de que el componente sea utilizado. Por lo tanto, el método no debe realizar ninguna tarea que pueda bloquear el hilo principal de la aplicación.
+
+También es importante tener en cuenta que el método `init()` se invocará solo una vez, incluso si el componente se crea varias veces.
+
+En general, la anotación `@PostConstruct` es una anotación útil que se puede utilizar para realizar tareas de inicialización que deben ser ejecutadas después de que se haya creado un bean.
+
+### Anotacion PreDestroy
+
+La anotación `@PreDestroy` se utiliza en Spring Boot para indicar que un método debe ser ejecutado antes de que se destruya un bean.
+
+La anotación `@PreDestroy` se utiliza en combinación con la anotación `@Component`. Por ejemplo, el siguiente código muestra cómo utilizar la anotación `@PreDestroy` para realizar una tarea de limpieza:
+
+```java
+@Component
+public class MyComponent {
+
+    @PreDestroy
+    public void destroy() {
+        // ...
+    }
+
+}
+```
+
+En este caso, el método `destroy()` se invocará antes de que se destruya el componente.
+
+El método anotado con `@PreDestroy` debe ser público y no debe tener argumentos. El método se puede utilizar para realizar cualquier tarea de limpieza que sea necesaria para el componente.
+
+Por ejemplo, el siguiente código muestra cómo utilizar el método `destroy()` para cerrar una conexión a una base de datos:
+
+```java
+@Component
+public class MyComponent {
+
+    @PreDestroy
+    public void destroy() {
+        // Cierra la conexión a la base de datos
+    }
+
+}
+```
+
+Es importante tener en cuenta que el método `destroy()` se invocará después de que el componente haya sido utilizado. Por lo tanto, el método no debe realizar ninguna tarea que pueda bloquear el hilo principal de la aplicación.
+
+También es importante tener en cuenta que el método `destroy()` se invocará solo una vez, incluso si el componente se crea varias veces.
+
+En general, la anotación `@PreDestroy` es una anotación útil que se puede utilizar para realizar tareas de limpieza que deben ser ejecutadas antes de que se destruya un bean.
+
+**Diferencias entre @PostConstruct y @PreDestroy**
+
+Las principales diferencias entre las anotaciones `@PostConstruct` y `@PreDestroy` son las siguientes:
+
+| Característica     | @PostConstruct                         | @PreDestroy                      |
+|--------------------|----------------------------------------|----------------------------------|
+| Orden de ejecución | Después de la creación del bean        | Antes de la destrucción del bean |
+| Uso                | Para realizar tareas de inicialización | Para realizar tareas de limpieza |
+| Obligatoriedad     | No es obligatoria                      | No es obligatoria                |
+
+En general, la anotación `@PostConstruct` se utiliza para realizar tareas de inicialización que deben ser ejecutadas después de que se haya creado un bean, mientras que la anotación `@PreDestroy` se utiliza para realizar tareas de limpieza que deben ser ejecutadas antes de que se destruya un bean.
+
+## Alcance (Scope) de los componentes
+
+El alcance o scope de un componente en Spring Boot determina cómo se crea y se administra el componente. Spring Boot proporciona los siguientes alcances de componentes:
+
+* **Singleton:** Este es el alcance predeterminado. Un componente con alcance singleton se crea una sola vez y se comparte por todas las solicitudes.
+* **Prototype:** Un componente con alcance prototype se crea cada vez que se requiere.
+* **Request:** Un componente con alcance request se crea para cada solicitud HTTP.
+* **Session:** Un componente con alcance session se crea para cada sesión HTTP.
+* **GlobalSession:** Un componente con alcance globalSession se crea para cada sesión global HTTP.
+
+El alcance de un componente se puede especificar mediante la anotación `@Scope`. Por ejemplo, el siguiente código muestra cómo especificar el alcance de un componente como singleton:
+
+```
+@Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
+public class MyComponent {
+
+}
+```
+
+En este ejemplo, el componente `MyComponent` se creará una sola vez y se compartirá por todas las solicitudes.
+
+La elección del alcance adecuado para un componente depende de las necesidades específicas de la aplicación. Por ejemplo, un componente que debe ser compartido por todas las solicitudes debe tener un alcance singleton. Un componente que debe crearse para cada solicitud debe tener un alcance prototype.
+
+Aquí hay una tabla que resume los diferentes alcances de componentes de Spring Boot:
+
+| Alcance       | Descripción                                                   |
+|---------------|---------------------------------------------------------------|
+| Singleton     | Se crea una sola vez y se comparte por todas las solicitudes. |
+| Prototype     | Se crea cada vez que se requiere.                             |
+| Request       | Se crea para cada solicitud HTTP.                             |
+| Session       | Se crea para cada sesión HTTP.                                |
+| GlobalSession | Se crea para cada sesión global HTTP.                         |
+
+### Alcances de algunos componentes
+
+Los componentes más comunes en Spring Boot suelen tener el alcance **singleton**. Esto se debe a que los componentes singleton se comparten por todas las solicitudes, lo que puede mejorar el rendimiento y la eficiencia de la aplicación.
+
+Algunos ejemplos de componentes comunes con alcance singleton son:
+
+* **Controladores HTTP:** Los controladores HTTP son los componentes que reciben y procesan las solicitudes HTTP. Es importante que los controladores HTTP sean singleton para que puedan compartirse por todas las solicitudes.
+* **Servicios:** Los servicios son componentes que implementan la lógica empresarial de la aplicación. Es importante que los servicios sean singleton para que puedan compartirse por todas las solicitudes.
+* **Repositorios:** Los repositorios son componentes que proporcionan acceso a los datos. Es importante que los repositorios sean singleton para que puedan compartirse por todas las solicitudes.
+
+Sin embargo, hay algunos componentes que pueden ser más adecuados para tener un alcance **prototype**. Por ejemplo, un componente que debe crearse para cada solicitud, como un objeto de sesión, debe tener un alcance prototype.
+
+Algunos ejemplos de componentes comunes con alcance prototype son:
+
+* **Objetos de sesión:** Los objetos de sesión son objetos que se crean para cada sesión HTTP. Es importante que los objetos de sesión sean prototype para que no se compartan entre sesiones.
+* **Objetos de trabajo:** Los objetos de trabajo son objetos que se utilizan para realizar tareas que no deben compartirse entre solicitudes. Es importante que los objetos de trabajo sean prototype para que se puedan reutilizar para diferentes solicitudes.
+
+En última instancia, la elección del alcance adecuado para un componente depende de las necesidades específicas de la aplicación.
+
+### Anotacion RequestScope
+
+La anotación `@RequestScope` se utiliza en Spring Boot para indicar que un componente debe crearse para cada solicitud HTTP.
+
+La anotación `@RequestScope` se utiliza en combinación con la anotación `@Component`. Por ejemplo, el siguiente código muestra cómo utilizar la anotación `@RequestScope` para crear un componente nuevo para cada solicitud HTTP:
+
+```
+@Component
+@RequestScope
+public class MyComponent {
+
+}
+```
+
+En este caso, un nuevo componente `MyComponent` se creará para cada solicitud HTTP.
+
+El componente anotado con `@RequestScope` debe ser público y no debe tener argumentos. El componente se puede utilizar para realizar cualquier tarea que sea necesaria para la solicitud HTTP.
+
+Por ejemplo, el siguiente código muestra cómo utilizar el componente `MyComponent` para almacenar el estado de la solicitud HTTP:
+
+```
+@Component
+@RequestScope
+public class MyComponent {
+
+    private String requestId;
+
+    public MyComponent() {
+        this.requestId = UUID.randomUUID().toString();
+    }
+
+    public String getRequestId() {
+        return this.requestId;
+    }
+
+}
+```
+
+En este ejemplo, el componente `MyComponent` almacena el identificador de solicitud HTTP en una propiedad privada. El identificador de solicitud HTTP se puede utilizar para identificar la solicitud HTTP en particular.
+
+Es importante tener en cuenta que los componentes con alcance `requestScope` se destruyen cuando finaliza la solicitud HTTP. Por lo tanto, el componente no debe contener ninguna información que deba conservarse más allá de la finalización de la solicitud HTTP.
+
+En general, la anotación `@RequestScope` es una anotación útil que se puede utilizar para crear componentes que sean específicos de una solicitud HTTP.
+
+### Anotacion SessionScope
+
+La anotación `@SessionScope` se utiliza en Spring Boot para indicar que un componente debe crearse para cada sesión HTTP.
+
+La anotación `@SessionScope` se utiliza en combinación con la anotación `@Component`. Por ejemplo, el siguiente código muestra cómo utilizar la anotación `@SessionScope` para crear un componente nuevo para cada sesión HTTP:
+
+```
+@Component
+@SessionScope
+public class MyComponent {
+
+}
+```
+
+En este caso, un nuevo componente `MyComponent` se creará para cada sesión HTTP.
+
+El componente anotado con `@SessionScope` debe ser público y no debe tener argumentos. El componente se puede utilizar para realizar cualquier tarea que sea necesaria para la sesión HTTP.
+
+Por ejemplo, el siguiente código muestra cómo utilizar el componente `MyComponent` para almacenar el estado de la sesión HTTP:
+
+```
+@Component
+@SessionScope
+public class MyComponent implements Serializable {
+
+    private static final long serialVersionUID = 946004357128146951L;
+
+    private String sessionId;
+
+    public MyComponent() {
+        this.sessionId = UUID.randomUUID().toString();
+    }
+
+    public String getSessionId() {
+        return this.sessionId;
+    }
+
+}
+```
+
+En este ejemplo, el componente `MyComponent` almacena el identificador de sesión HTTP en una propiedad privada. El identificador de sesión HTTP se puede utilizar para identificar la sesión HTTP en particular.
+
+Es importante tener en cuenta que los componentes con alcance `sessionScope` se destruyen cuando finaliza la sesión HTTP. Por lo tanto, el componente no debe contener ninguna información que deba conservarse más allá de la finalización de la sesión HTTP.
+
+En general, la anotación `@SessionScope` es una anotación útil que se puede utilizar para crear componentes que sean específicos de una sesión HTTP.
+
+**Diferencias entre @RequestScope y @SessionScope**
+
+Las principales diferencias entre las anotaciones `@RequestScope` y `@SessionScope` son las siguientes:
+
+| Característica | @RequestScope                            | @SessionScope                         |
+|----------------|------------------------------------------|---------------------------------------|
+| Alcance        | Por solicitud HTTP                       | Por sesión HTTP                       |
+| Creación       | Para cada solicitud HTTP                 | Para cada sesión HTTP                 |
+| Destrucción    | Cuando finaliza la solicitud HTTP        | Cuando finaliza la sesión HTTP        |
+| Usos comunes   | Almacenar el estado de la solicitud HTTP | Almacenar el estado de la sesión HTTP |
+
+En general, la anotación `@RequestScope` es más adecuada para almacenar información que es específica de una solicitud HTTP, mientras que la anotación `@SessionScope` es más adecuada para almacenar información que es específica de una sesión HTTP.
+
+### Anotacion AplicationScope
+
+La anotación `@ApplicationScope` se utiliza en Spring Boot para indicar que un componente debe crearse una sola vez y se compartirá por todas las solicitudes.
+
+La anotación `@ApplicationScope` se utiliza en combinación con la anotación `@Component`. Por ejemplo, el siguiente código muestra cómo utilizar la anotación `@ApplicationScope` para crear un componente nuevo que se compartirá por todas las solicitudes:
+
+```
+@Component
+@ApplicationScope
+public class MyComponent {
+
+}
+```
+
+En este caso, un nuevo componente `MyComponent` se creará una sola vez y se compartirá por todas las solicitudes.
+
+El componente anotado con `@ApplicationScope` debe ser público y no debe tener argumentos. El componente se puede utilizar para realizar cualquier tarea que sea necesaria para la aplicación.
+
+Por ejemplo, el siguiente código muestra cómo utilizar el componente `MyComponent` para almacenar el estado de la aplicación:
+
+```
+@Component
+@ApplicationScope
+public class MyComponent {
+
+    private String applicationId;
+
+    public MyComponent() {
+        this.applicationId = UUID.randomUUID().toString();
+    }
+
+    public String getApplicationId() {
+        return this.applicationId;
+    }
+
+}
+```
+
+En este ejemplo, el componente `MyComponent` almacena el identificador de aplicación en una propiedad privada. El identificador de aplicación se puede utilizar para identificar la aplicación en particular.
+
+Es importante tener en cuenta que los componentes con alcance `applicationScope` se destruyen cuando se detiene la aplicación. Por lo tanto, el componente no debe contener ninguna información que deba conservarse más allá de la detención de la aplicación.
+
+En general, la anotación `@ApplicationScope` es una anotación útil que se puede utilizar para crear componentes que sean específicos de la aplicación.
+
+**Diferencias entre @RequestScope, @SessionScope y @ApplicationScope**
+
+Las principales diferencias entre las anotaciones `@RequestScope`, `@SessionScope` y `@ApplicationScope` son las siguientes:
+
+| Característica | @RequestScope                            | @SessionScope                         | @ApplicationScope                    |
+|----------------|------------------------------------------|---------------------------------------|--------------------------------------|
+| Alcance        | Por solicitud HTTP                       | Por sesión HTTP                       | Por aplicación                       |
+| Creación       | Para cada solicitud HTTP                 | Para cada sesión HTTP                 | Una sola vez                         |
+| Destrucción    | Cuando finaliza la solicitud HTTP        | Cuando finaliza la sesión HTTP        | Cuando se detiene la aplicación      |
+| Usos comunes   | Almacenar el estado de la solicitud HTTP | Almacenar el estado de la sesión HTTP | Almacenar el estado de la aplicación |
+
+En general, la anotación `@RequestScope` es más adecuada para almacenar información que es específica de una solicitud HTTP, mientras que la anotación `@SessionScope` es más adecuada para almacenar información que es específica de una sesión HTTP. La anotación `@ApplicationScope` es más adecuada para almacenar información que es específica de la aplicación.****

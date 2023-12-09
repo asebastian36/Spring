@@ -1,10 +1,13 @@
 package com.bolsadeideas.springboot.app.springbootdi.models.domain;
 
+import jakarta.annotation.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 import java.util.List;
 
 @Component
+@RequestScope
 public class Factura {
     @Value("${factura.descripcion}")
     private String descripcion;
@@ -15,6 +18,17 @@ public class Factura {
     @Autowired
     @Qualifier("articulosSetup")
     private List<Articulo> articulos;
+
+    @PostConstruct
+    public void inicializar() {
+        cliente.setNombre(cliente.getNombre().concat(" ").concat("Messi"));
+        descripcion = descripcion.concat(" del cliente ").concat(cliente.getNombre());
+    }
+
+    @PreDestroy
+    public void destruir() {
+        System.out.println("Factura destruida");
+    }
 
     public String getDescripcion() {
         return descripcion;
