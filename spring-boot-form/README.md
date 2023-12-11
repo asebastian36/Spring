@@ -183,7 +183,6 @@ La interfaz `BindingResult` proporciona los siguientes métodos para acceder a l
 
 Por ejemplo, el siguiente código muestra cómo utilizar la interfaz `BindingResult` para acceder a los errores de validación:
 
-> .[!IMPORTANT].
 > Solo funciona si pasamos la interfaz despues del objeto a valida.
 
 ```java
@@ -223,3 +222,79 @@ public void createUser(@Valid User user, BindingResult bindingResult) {
 En este código, el método `rejectValue()` se utiliza para generar un mensaje de error personalizado para el campo `name`. El mensaje de error personalizado es "El nombre debe ser obligatorio.".
 
 En general, la interfaz `BindingResult` es una herramienta útil para acceder a los resultados de la validación de datos.
+
+### Anotacion ModelAttribute
+
+La anotación `@ModelAttribute` se utiliza en Spring Boot para asociar un objeto con un modelo de vista.
+
+La anotación `@ModelAttribute` se utiliza en combinación con una clase o un método. Si se utiliza con una clase, la anotación `@ModelAttribute` asociará el objeto de la clase con el modelo de vista. Si se utiliza con un método, la anotación `@ModelAttribute` asociará el objeto devuelto por el método con el modelo de vista.
+
+Por ejemplo, el siguiente código muestra cómo utilizar la anotación `@ModelAttribute` para asociar un objeto `User` con el modelo de vista:
+
+```java
+@RestController
+public class UserController {
+
+    @PostMapping("/users")
+    public void createUser(@ModelAttribute User user) {
+        // Procesar el usuario
+    }
+}
+```
+
+En este código, la anotación `@ModelAttribute` asociará el objeto `user` con el modelo de vista. Esto significa que el objeto `user` estará disponible en la vista.
+
+La anotación `@ModelAttribute` también se puede utilizar para generar datos ficticios para el modelo de vista. Por ejemplo, el siguiente código muestra cómo generar datos ficticios para el modelo de vista:
+
+```java
+@RestController
+public class UserController {
+
+    @PostMapping("/users")
+    public void createUser(@ModelAttribute User user) {
+        // Procesar el usuario
+    }
+
+    @ModelAttribute
+    public User createUser() {
+        return new User("Juan", 25);
+    }
+}
+```
+
+En este código, el método `createUser()` se utiliza para generar un objeto `User` ficticio. El objeto `User` se asociará con el modelo de vista mediante la anotación `@ModelAttribute`.
+
+En general, la anotación `@ModelAttribute` es una herramienta útil para asociar objetos con modelos de vista.
+
+#### Acceso a los mensajes de error de forma manual
+
+```java
+@PostMapping("/form")
+    public String procesar(@Valid @ModelAttribute("user") Usuario usuario, BindingResult result, Model model) {
+        model.addAttribute("titulo", "Datos procesados");
+
+
+        //  forma manual de obtener los mensajes de error
+        if(result.hasErrors()) {
+            Map<String, String> errores = new HashMap<>();
+
+            result.getFieldErrors().forEach(error -> {
+                errores.put(error.getField(), "El campo " + error.getField() + " " + error.getDefaultMessage());
+            });
+
+            model.addAttribute("errores", errores);
+            return "form";
+        }
+
+        model.addAttribute("user", usuario);
+        return "resultado";
+    }
+```
+
+#### Accediendo a esos mensajes en la vista
+
+```html
+<div th:if="${errores != null && errores.containsKey('password')}">
+    <span th:text="${errores.password}"></span>
+</div>
+```
