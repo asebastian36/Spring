@@ -1,8 +1,10 @@
 package com.bolsadeideas.springboot.form.springbootform.controllers;
 
 import com.bolsadeideas.springboot.form.springbootform.models.domain.Usuario;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -14,19 +16,9 @@ public class FormController {
     }
 
     @PostMapping("/form")
-    public String procesar(@RequestParam String username,
-                           @RequestParam String email,
-                           @RequestParam String password,
-                           Model model) {
-
-        Usuario user = new Usuario();
-
-        user.setEmail(email);
-        user.setUsername(username);
-        user.setPassword(password);
-
+    public String procesar(@Valid Usuario usuario, BindingResult result, Model model) {
         model.addAttribute("titulo", "Datos procesados");
-        model.addAttribute("user", user);
+        model.addAttribute("user", usuario);
         return "resultado";
     }
 }
