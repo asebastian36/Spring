@@ -1,8 +1,11 @@
 package com.bolsadeideas.springboot.form.springbootform.models.domain;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 public class Usuario {
+    @NotNull
+    private int id;
     @NotEmpty
     private String nombre;
 
@@ -56,5 +59,13 @@ public class Usuario {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

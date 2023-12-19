@@ -298,3 +298,89 @@ En general, la anotación `@ModelAttribute` es una herramienta útil para asocia
     <span th:text="${errores.password}"></span>
 </div>
 ```
+
+### Anotacion SessionAttributes
+
+La anotación `@SessionAttributes` se utiliza en Spring Boot para indicar que un conjunto de atributos deben almacenarse en la sesión HTTP entre solicitudes.
+
+La anotación `@SessionAttributes` se utiliza en combinación con una clase o un método. Si se utiliza con una clase, la anotación `@SessionAttributes` almacenará en la sesión HTTP todos los atributos de la clase. Si se utiliza con un método, la anotación `@SessionAttributes` almacenará en la sesión HTTP todos los atributos devueltos por el método.
+
+Por ejemplo, el siguiente código muestra cómo utilizar la anotación `@SessionAttributes` para almacenar un atributo `User` en la sesión HTTP:
+
+```java
+@RestController
+public class UserController {
+
+    @PostMapping("/users")
+    public void createUser(@ModelAttribute User user) {
+        // Procesar el usuario
+    }
+
+    @SessionAttributes("user")
+    public User createUser() {
+        return new User("Juan", 25);
+    }
+}
+```
+
+En este código, la anotación `@SessionAttributes` almacenará el atributo `user` en la sesión HTTP. Esto significa que el atributo `user` estará disponible en todas las solicitudes posteriores.
+
+La anotación `@SessionAttributes` también se puede utilizar para especificar el tiempo de vida de los atributos en la sesión HTTP. Por ejemplo, el siguiente código muestra cómo establecer el tiempo de vida de los atributos en la sesión HTTP en 30 minutos:
+
+```java
+@SessionAttributes(value = {"user"}, maxAge = 30 * 60 * 1000)
+public User createUser() {
+        return new User("Juan", 25);
+    }
+```
+
+En este código, los atributos `user` se almacenarán en la sesión HTTP durante 30 minutos.
+
+En general, la anotación `@SessionAttributes` es una herramienta útil para almacenar atributos en la sesión HTTP.
+
+### Interfaz SessionStatus
+
+La interfaz `SessionStatus` se utiliza en Spring Boot para representar el estado de una sesión HTTP.
+
+La interfaz `SessionStatus` proporciona los siguientes métodos para controlar el estado de la sesión HTTP:
+
+* `isComplete()`: Devuelve `true` si la sesión HTTP está completa.
+* `setComplete()`: Marca la sesión HTTP como completa.
+* `removeAttribute()`: Elimina un atributo de la sesión HTTP.
+* `removeAttributes()`: Elimina todos los atributos de la sesión HTTP.
+
+Por ejemplo, el siguiente código muestra cómo utilizar la interfaz `SessionStatus` para marcar una sesión HTTP como completa:
+
+```java
+@RestController
+public class UserController {
+
+    @PostMapping("/users")
+    public void createUser(@ModelAttribute User user, SessionStatus sessionStatus) {
+        // Procesar el usuario
+
+        sessionStatus.setComplete();
+    }
+}
+```
+
+En este código, el método `setComplete()` se utiliza para marcar la sesión HTTP como completa. Esto significa que la sesión HTTP se cerrará después de que se procese la solicitud HTTP.
+
+La interfaz `SessionStatus` también se puede utilizar para eliminar atributos de la sesión HTTP. Por ejemplo, el siguiente código muestra cómo eliminar un atributo de la sesión HTTP:
+
+```java
+@RestController
+public class UserController {
+
+    @PostMapping("/users")
+    public void createUser(@ModelAttribute User user, SessionStatus sessionStatus) {
+        // Procesar el usuario
+
+        sessionStatus.removeAttribute("user");
+    }
+}
+```
+
+En este código, el método `removeAttribute()` se utiliza para eliminar el atributo `user` de la sesión HTTP.
+
+En general, la interfaz `SessionStatus` es una herramienta útil para controlar el estado de las sesiones HTTP.
