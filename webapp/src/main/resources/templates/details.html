@@ -22,5 +22,26 @@
       <h2>Email</h2>
       <p th:text="no tiene email"></p>
     </div>
+
+    <ul>
+      <li>
+        <a th:href="@{/list}">Ver listado</a>
+      </li>
+
+      <li>
+        <p>Enlace con un solo parametro: </p>
+        <a th:href="@{'/api/params/foo?message=' + ${title}}">Ver mensaje</a>
+      </li>
+
+      <li>
+        <p>Enlace con multiples parametros: </p>
+        <a th:href="@{/api/params/bar(message='pero que pelotas haces?', code=1)}">Ver mensaje y codigo</a>
+      </li>
+
+      <li>
+        <p>Enlace con path variable: </p>
+        <a th:href="@{'/api/var/baz/' + 'pero que pelotas haces?'}">Ver mensaje en path variable</a>
+      </li>
+    </ul>
   </body>
 </html>

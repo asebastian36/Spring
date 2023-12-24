@@ -3,9 +3,7 @@ package com.angel.curso.springboot.webapp.controllers;
 import com.angel.curso.springboot.webapp.models.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-
+import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @Controller

@@ -380,3 +380,66 @@ public class UserDTO {
 ```
 
 Esta clase representa un usuario. La clase tiene tres propiedades: `name`, `age` y `email`. La clase es un DTO porque es un objeto plano que contiene solo los datos necesarios para representar un usuario.
+
+## Enviroment
+
+En Spring Boot, el objeto `Environment` proporciona acceso a las propiedades de la aplicación. Estas propiedades pueden ser proporcionadas por el usuario, por el sistema operativo o por el entorno de ejecución de Spring Boot.
+
+El objeto `Environment` se puede utilizar para obtener el valor de una propiedad específica, o para obtener una lista de todas las propiedades.
+
+Para obtener el valor de una propiedad específica, se puede utilizar el método `getProperty()`. El método `getProperty()` toma como argumento el nombre de la propiedad como parámetro.
+
+Por ejemplo, el siguiente código obtiene el valor de la propiedad `spring.application.name`:
+
+```java
+String applicationName = Environment.getRequiredProperty("spring.application.name");
+```
+
+Para obtener una lista de todas las propiedades, se puede utilizar el método `getProperties()`. El método `getProperties()` devuelve un objeto `Map` que contiene todas las propiedades.
+
+Por ejemplo, el siguiente código imprime una lista de todas las propiedades:
+
+```java
+Map<String, Object> properties = Environment.getProperties();
+
+for (Map.Entry<String, Object> entry : properties.entrySet()) {
+    System.out.println("Property: " + entry.getKey() + ", Value: " + entry.getValue());
+}
+```
+
+Las propiedades de la aplicación se pueden configurar de varias maneras, incluyendo:
+
+* **Archivo de propiedades:** El archivo de propiedades es el método más común para configurar las propiedades de la aplicación. El archivo de propiedades es un archivo de texto plano que contiene pares de nombre-valor.
+* **Variables de entorno:** Las variables de entorno se pueden utilizar para configurar las propiedades de la aplicación. Las variables de entorno son variables que se definen en el sistema operativo.
+* **Argumentos de línea de comandos:** Los argumentos de línea de comandos se pueden utilizar para configurar las propiedades de la aplicación. Los argumentos de línea de comandos se especifican cuando se inicia la aplicación.
+
+Spring Boot proporciona una variedad de herramientas para ayudar a los desarrolladores a configurar las propiedades de la aplicación. Estas herramientas incluyen:
+
+* **Spring Boot CLI:** El Spring Boot CLI es una herramienta de línea de comandos que se puede utilizar para iniciar aplicaciones Spring Boot y configurar propiedades.
+* **Spring Boot Maven Plugin:** El Spring Boot Maven Plugin es un complemento de Maven que se puede utilizar para configurar propiedades de la aplicación.
+* **Spring Boot Gradle Plugin:** El Spring Boot Gradle Plugin es un complemento de Gradle que se puede utilizar para configurar propiedades de la aplicación.
+
+En general, el objeto `Environment` es una herramienta útil para acceder a las propiedades de la aplicación en Spring Boot.
+
+## Diferencias entre usar Forward o Redirect en vistas web
+
+La diferencia radica en que forward se matiene dentro de la misma peticion http y no se pierde los parametros del request, tampoco cambia la ruta url. Mientras que el redirect si cambia la ruta url, reinicia el request y refresca
+el navegador, tambien se pierden los parametros anteriores al redirect.
+
+## Despliegue desde terminal
+
+Entramos desde terminal al proyecto y se ejecuta este comando:
+
+> Para generar el .jar que se ejecutara en local.
+
+```cmd
+./mvnw clean package
+```
+
+Despues se debe entrar a la ruta donde se guarda el jar generado la cual se llama `target` y se ejecuta con la siguiente sintaxis:
+
+> el nombre se genera con el nombre del proyecto y la version utilizada.
+
+```cmd
+java -jar .\webapp-0.0.1-SNAPSHOT.jar
+```
