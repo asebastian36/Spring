@@ -85,6 +85,173 @@ Por defecto, los endpoints de Actuator están expuestos y no requieren autentica
 
 **En resumen, Spring Boot Actuator es una herramienta valiosa para monitorear y administrar aplicaciones Spring Boot, mejorando su observabilidad, depuración y rendimiento. Recuerda implementar siempre medidas de seguridad para proteger los endpoints expuestos.**
 
-¿Te gustaría conocer más sobre algún aspecto específico de Spring Boot Actuator?
+## Principio de inmutabilidad
 
+El principio de la inmutabilidad es un principio de diseño de software que establece que los objetos deben ser inmutables, es decir, no deben poder modificarse después de su creación.
 
+Los objetos inmutables tienen las siguientes ventajas:
+
+* **Mejoran la seguridad:** Los objetos inmutables no pueden modificarse accidentalmente, lo que reduce el riesgo de errores.
+* **Mejoran la concurrencia:** Los objetos inmutables pueden ser compartidos de forma segura entre hilos, lo que facilita la programación concurrente.
+* **Mejoran la testabilidad:** Los objetos inmutables son más fáciles de probar, ya que no es necesario preocuparse por los efectos secundarios de las modificaciones.
+
+Hay varias formas de implementar el principio de la inmutabilidad:
+
+* **Utilizando clases finales:** Las clases finales no pueden ser extendidas, lo que garantiza que los objetos creados a partir de ellas no pueden ser modificados.
+* **Utilizando constructores privados:** Los constructores privados solo pueden ser llamados desde el interior de la clase, lo que garantiza que los objetos solo pueden ser creados por la propia clase.
+* **Utilizando getters y setters:** Los getters y setters solo pueden devolver una copia de los datos del objeto, lo que garantiza que los datos originales no se pueden modificar.
+
+La siguiente es una clase de ejemplo que implementa el principio de la inmutabilidad:
+
+```java
+public final class Point {
+
+    private final int x;
+    private final int y;
+
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+}
+```
+
+Esta clase es final, por lo que no puede ser extendida. El constructor de la clase es privado, por lo que los objetos solo pueden ser creados por la propia clase. Los getters de la clase solo devuelven una copia de los datos del objeto, por lo que los datos originales no se pueden modificar.
+
+El principio de la inmutabilidad es una técnica importante en el desarrollo de software seguro y concurrente.
+
+## Inmutabilidad con la interfaz Cloneable
+
+La interfaz `Cloneable` es una interfaz de Java que indica que una clase puede ser clonada. La clonación es el proceso de crear una copia exacta de un objeto.
+
+Para implementar el principio de la inmutabilidad usando la interfaz `Cloneable`, una clase debe implementar la interfaz `Cloneable` y proporcionar una implementación del método `clone()`. El método `clone()` debe devolver una copia exacta del objeto.
+
+La siguiente es una clase de ejemplo que implementa el principio de la inmutabilidad usando la interfaz `Cloneable`:
+
+```java
+public final class Point implements Cloneable {
+
+    private final int x;
+    private final int y;
+
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+}
+```
+
+Esta clase es final, por lo que no puede ser extendida. El constructor de la clase es privado, por lo que los objetos solo pueden ser creados por la propia clase. Los getters de la clase solo devuelven una copia de los datos del objeto. El método `clone()` simplemente devuelve una copia del objeto.
+
+Esta implementación de la inmutabilidad usando la interfaz `Cloneable` tiene las siguientes ventajas:
+
+* Es simple de implementar.
+* Es compatible con la mayoría de los IDE y frameworks.
+
+Sin embargo, también tiene algunas desventajas:
+
+* No es completamente segura. Es posible que un objeto clonado pueda ser modificado accidentalmente o maliciosamente.
+* No es adecuada para objetos que contienen referencias a otros objetos.
+
+Para evitar que un objeto clonado pueda ser modificado accidentalmente o maliciosamente, se puede utilizar el método `clone()` de la clase `Object` para crear una copia superficial del objeto. Una copia superficial solo copia los datos del objeto original, pero no copia las referencias a otros objetos.
+
+La siguiente es una implementación mejorada de la clase `Point` que utiliza una copia superficial:
+
+```java
+public final class Point implements Cloneable {
+
+    private final int x;
+    private final int y;
+
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Point point = (Point) super.clone();
+
+        // Realiza una copia superficial de las referencias
+        point.x = this.x;
+        point.y = this.y;
+
+        return point;
+    }
+}
+```
+
+Esta implementación de la clase `Point` es segura, ya que no es posible que un objeto clonado pueda modificar los datos originales del objeto original.
+
+En general, la interfaz `Cloneable` es una herramienta útil para implementar el principio de la inmutabilidad. Sin embargo, es importante tener en cuenta las limitaciones de esta implementación.
+
+## Anotacion Service y Repository
+
+Las anotaciones `@Service` y `@Repository` son anotaciones de Spring Framework que se utilizan para indicar que una clase es un servicio o un repositorio, respectivamente.
+
+La anotación `@Service` se utiliza para indicar que una clase es un servicio, es decir, una clase que implementa la lógica de negocio de una aplicación. Los servicios suelen ser clases que realizan operaciones complejas, como la creación, la lectura, la actualización y la eliminación de datos.
+
+La anotación `@Repository` se utiliza para indicar que una clase es un repositorio, es decir, una clase que proporciona acceso a los datos de una aplicación. Los repositorios suelen ser clases que implementan un patrón de diseño de repositorio, como el patrón DAO (Data Access Object).
+
+Las anotaciones `@Service` y `@Repository` tienen las siguientes ventajas:
+
+* **Mejoran la organización del código:** Las anotaciones permiten organizar el código de una aplicación en capas, lo que facilita la comprensión y la mantenimiento del código.
+* **Facilitan la inyección de dependencias:** Las anotaciones permiten inyectar los servicios y los repositorios en otras clases, lo que facilita el desarrollo de aplicaciones desacopladas.
+
+La siguiente es una clase de ejemplo que utiliza la anotación `@Service`:
+
+```java
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public User findById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+}
+```
+
+En esta clase, la anotación `@Service` indica que la clase `UserService` es un servicio. La anotación `@Autowired` indica que el atributo `userRepository` debe ser inyectado por Spring.
+
+La siguiente es una clase de ejemplo que utiliza la anotación `@Repository`:
+
+```java
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+}
+```
+
+En esta clase, la anotación `@Repository` indica que la clase `UserRepository` es un repositorio. La clase `UserRepository` implementa la interfaz `JpaRepository`, que proporciona métodos para acceder a los datos de la base de datos.
+
+En general, las anotaciones `@Service` y `@Repository` son herramientas útiles para organizar el código de una aplicación y facilitar la inyección de dependencias.
