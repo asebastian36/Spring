@@ -1,12 +1,11 @@
 package com.angel.curso.springboot.webappdi.repositories;
 
 import com.angel.curso.springboot.webappdi.models.Product;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import java.util.*;
 
+//  @RequestScope
 @Repository
-@Primary
 public class ProductRepositoryImpl implements ProductRepository{
     List<Product> data;
 

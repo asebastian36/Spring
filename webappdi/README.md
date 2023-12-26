@@ -255,3 +255,87 @@ public interface UserRepository extends JpaRepository<User, Long> {
 En esta clase, la anotación `@Repository` indica que la clase `UserRepository` es un repositorio. La clase `UserRepository` implementa la interfaz `JpaRepository`, que proporciona métodos para acceder a los datos de la base de datos.
 
 En general, las anotaciones `@Service` y `@Repository` son herramientas útiles para organizar el código de una aplicación y facilitar la inyección de dependencias.
+
+## RequestScope
+
+**Request scope** (alcance de solicitud) es un mecanismo de gestión de beans en Spring Framework que indica que un bean debe tener una instancia independiente para cada solicitud HTTP que se procesa. Esto significa que el bean se crea al inicio de la solicitud, se utiliza durante el manejo de la misma y se destruye al finalizar la solicitud.
+
+**Ventajas del request scope:**
+
+- **Encapsulación del estado de la solicitud:** Los datos relacionados a una solicitud específica se mantienen aislados de otras solicitudes, favoreciendo la seguridad y evitando problemas de concurrencia.
+- **Reducción del consumo de memoria:** Los beans no se mantienen en memoria entre solicitudes, lo que optimiza el uso de recursos del servidor.
+- **Ideal para beans que manejan datos sensibles:** Es apropiado para beans que almacenan información del usuario, datos de formularios, archivos temporales o datos específicos de la sesión, ya que se destruyen al finalizar la solicitud, mejorando la seguridad y privacidad.
+
+**Cómo implementar el request scope en Spring:**
+
+1. **Anotación `@RequestScope`:** Se utiliza para indicar que un bean debe tener request scope:
+
+   ```java
+   @Component
+   @RequestScope
+   public class MyRequestScopedBean {
+       // ...
+   }
+   ```
+
+2. **Configuración XML:** También se puede configurar el request scope a través del archivo XML de configuración de beans:
+
+   ```xml
+   <bean id="myRequestScopedBean" class="com.example.MyRequestScopedBean" scope="request">
+   </bean>
+   ```
+
+**Casos de uso comunes:**
+
+- **Formularios web:** Los beans con request scope se utilizan para almacenar datos de formularios, realizar validaciones y procesar la información de la solicitud.
+- **Carrito de compras:** En aplicaciones de e-commerce, el carrito de compras puede ser un bean con request scope para gestionar los productos seleccionados por el usuario durante la sesión.
+- **Filtros y servlets:** En la programación de servlets, se pueden utilizar beans con request scope para acceder a datos específicos de la solicitud dentro de filtros o servlets.
+- **Controladores Spring MVC:** En controladores Spring MVC, los beans con request scope permiten almacenar datos específicos de la solicitud para ser utilizados en las vistas.
+
+**Consideraciones importantes:**
+
+- **No se pueden inyectar en beans de session scope:** Los beans con request scope no se pueden inyectar directamente en beans con session scope, ya que tienen ciclos de vida diferentes.
+- **Uso en contextos sin web:** El request scope generalmente se utiliza en aplicaciones web, pero también puede ser útil en ciertos contextos sin web, como en pruebas unitarias.
+
+## SessionScope
+
+El **session scope** (alcance de sesión) es un mecanismo de gestión de beans en Spring Framework que indica que un bean debe tener una instancia independiente para cada sesión HTTP que se abre. Esto significa que el bean se crea al inicio de la sesión, se utiliza durante la vida de la sesión y se destruye al finalizar la sesión.
+
+**Ventajas del session scope:**
+
+* **Almacenamiento de datos de sesión:** Los beans con session scope se pueden utilizar para almacenar datos de sesión, como información del usuario, preferencias o datos personalizados.
+* **Mejora de la experiencia del usuario:** Los beans con session scope pueden ayudar a mejorar la experiencia del usuario al proporcionar datos personalizados o recordar preferencias entre visitas.
+* **Optimización del rendimiento:** Los beans con session scope solo se crean una vez por sesión, lo que optimiza el rendimiento del servidor.
+
+**Cómo implementar el session scope en Spring:**
+
+1. **Anotación `@SessionScope`:** Se utiliza para indicar que un bean debe tener session scope:
+
+```java
+@Component
+@SessionScope
+public class MySessionScopedBean {
+  // ...
+}
+```
+
+2. **Configuración XML:** También se puede configurar el session scope a través del archivo XML de configuración de beans:
+
+```xml
+<bean id="mySessionScopedBean" class="com.example.MySessionScopedBean" scope="session">
+</bean>
+```
+
+**Casos de uso comunes:**
+
+* **Información del usuario:** Los beans con session scope se pueden utilizar para almacenar información del usuario, como nombre, correo electrónico o preferencias.
+* **Preferencias:** Los beans con session scope se pueden utilizar para almacenar preferencias del usuario, como el idioma o la zona horaria.
+* **Carrito de compras:** En aplicaciones de e-commerce, el carrito de compras puede ser un bean con session scope para gestionar los productos seleccionados por el usuario durante la sesión.
+* **Datos de formularios:** Los beans con session scope se pueden utilizar para almacenar datos de formularios entre visitas.
+
+**Consideraciones importantes:**
+
+* **No se pueden inyectar en beans de request scope:** Los beans con session scope no se pueden inyectar directamente en beans con request scope, ya que tienen ciclos de vida diferentes.
+* **Uso en contextos sin web:** El session scope generalmente se utiliza en aplicaciones web, pero también puede ser útil en ciertos contextos sin web, como en aplicaciones de escritorio o móviles.
+
+En resumen, el session scope es un mecanismo útil para almacenar datos de sesión y mejorar la experiencia del usuario en aplicaciones web.

@@ -1,0 +1,23 @@
+[
+    {
+      "id": 5,
+      "name": "RTX 4070",
+      "price": 1350
+    },
+    {
+      "id": 6,
+      "name": "SSD 1T",
+      "price": 175
+    },
+    {
+      "id": 7,
+      "name": "Memorias ram de 16GB",
+      "price": 187
+    },
+    {
+      "id": 8,
+      "name": "Gabinete",
+      "price": 156
+    }
+]
+
