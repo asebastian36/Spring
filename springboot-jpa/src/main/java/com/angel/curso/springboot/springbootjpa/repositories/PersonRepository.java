@@ -3,8 +3,7 @@ package com.angel.curso.springboot.springbootjpa.repositories;
 import com.angel.curso.springboot.springbootjpa.entities.Person;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public interface PersonRepository extends CrudRepository<Person, Long> {
     //  para consultas
@@ -53,5 +52,17 @@ public interface PersonRepository extends CrudRepository<Person, Long> {
 
     //  obtener todos los campos de un registro
     @Query("select p.id, p.name, p.lastname, p.programmingLanguage from Person p where p.id = :id")
-    Object[] getFullById(Long id);
+    Optional<Object> getFullById(Long id);
+
+    //  obtener todos los campos de todos los registros
+    @Query("select p.id, p.name, p.lastname, p.programmingLanguage from Person p")
+    List<Object[]> getFullDataList();
+
+    //  retornar el campo y el objeto completo
+    @Query("select p, p.programmingLanguage from Person p")
+    List<Object[]> findAllMix();
+
+    //  regresar una instancia excluyendo campos, se requiere agregar un constructor
+    @Query("select new Person(p.name, p.lastname) from Person p")
+    List<Person> findAllClassPerson();
 }

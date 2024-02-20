@@ -21,19 +21,46 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        personalizedQueries(1L);
+        personalizedMixQueries();
     }
 
     @Transactional(readOnly = true)
-    public void personalizedQueries(Long id) {
+    public void personalizedMixQueries() {
+        List<Object[]> personsList = repository.findAllMix();
+        personsList.forEach(element -> System.out.println("ProgrammingLanguage = " + element[1] + " Person: " + element[0]));
+
+        List<Person> persons = repository.findAllClassPerson();
+        persons.forEach(System.out::println);
+
+    }
+
+    @Transactional(readOnly = true)
+    public void personalizedQueries() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Ingrese el id a buscar: ");
+        Long id = sc.nextLong();
+
+        //  obtener el nombre de un registro
         String result = repository.getNameById(id);
         System.out.println("result = " + result);
-        
+
+        //  obtener el nombre concatenado
         String fullName = repository.getFullNameById(id);
         System.out.println("fullName = " + fullName);
-        
-        Object[] array = repository.getFullById(id);
-        System.out.println(array[0].toString());
+
+        //  obtener los campos de un registro
+        Optional<Object> optional = repository.getFullById(id);
+
+        if (optional.isPresent()) {
+            Object[] array = (Object[]) optional.get();
+            System.out.println("Registro " + array[0] + ": " +  array[1] + " " + array[2] + " " + array[3]);
+        } else {
+            System.out.println("Objeto no encontrado");
+        }
+
+        //  obtener los campos de los registros
+        List<Object[]> arrayList = repository.getFullDataList();
+        arrayList.forEach(arr -> System.out.println("Registro " + arr[0] + ": " +  arr[1] + " " + arr[2] + " " + arr[3]));
     }
 
     @Transactional
@@ -100,22 +127,26 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
     @Transactional(readOnly = true)
     public void findOne() {
-        //  opcion 1
-//        Person person = null;
-//        Optional<Person> optional = repository.findById(1L);
-//
-//        if (optional.isPresent()) person = optional.get();
-//
-//        System.out.println(person);
+        /*
+          opcion 1
+                Person person = null;
+                Optional<Person> optional = repository.findById(1L);
 
-        //  opcion 2
+                if (optional.isPresent()) person = optional.get();
+
+                System.out.println(person);
+          opcion 2
+        */
+
         repository.findOneNameLike("gel").ifPresent(System.out::println);
     }
 
     @Transactional(readOnly = true)
     public void list() {
-        //  List<Person> persons = (List<Person>) repository.findByIdAndName(1, "Angel");
-        //  persons.forEach(System.out::println);
+        /*
+          List<Person> persons = (List<Person>) repository.findByIdAndName(1, "Angel");
+          persons.forEach(System.out::println);
+        */
 
         List<Object[]> personsValues = repository.obtenerPersonValues(1);
         personsValues.forEach(person -> {
