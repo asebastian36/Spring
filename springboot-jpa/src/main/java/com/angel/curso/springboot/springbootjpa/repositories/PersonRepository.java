@@ -1,5 +1,6 @@
 package com.angel.curso.springboot.springbootjpa.repositories;
 
+import com.angel.curso.springboot.springbootjpa.dto.PersonDto;
 import com.angel.curso.springboot.springbootjpa.entities.Person;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -65,4 +66,43 @@ public interface PersonRepository extends CrudRepository<Person, Long> {
     //  regresar una instancia excluyendo campos, se requiere agregar un constructor
     @Query("select new Person(p.name, p.lastname) from Person p")
     List<Person> findAllClassPerson();
+
+    //  regresar una instancia pero como una clase dto excluyendo campos
+    @Query("select new com.angel.curso.springboot.springbootjpa.dto.PersonDto(p.name, p.lastname) from Person p")
+    List<PersonDto> findAllDtoPerson();
+
+    //  regresa una lista de nombres
+    @Query("select p.name from Person p")
+    List<String> findAllNames();
+
+    //  regresa los nombres sin repetir
+    @Query("select distinct (p.name) from Person p")
+    List<String> findAllNamesDistinc();
+
+    //  regresa los lenguajes sin repetir
+    @Query("select distinct (p.programmingLanguage) from Person p")
+    List<String> findAllLanguageDistinc();
+
+    //  cuenta la cantidad de registros de la consulta
+    @Query("select count(distinct(p.programmingLanguage)) from Person p")
+    Long findAllLanguageDistincCount();
+
+    //  regresa el nombre completo
+
+    //  @Query("select concat(p.name, ' ', p.lastname) from Person p") opcion 1
+    @Query("select p.name || ' ' || p.lastname from Person p")//    opcion 2
+    List<String> findAllFullNamesConcat();
+
+    @Query("select lower(concat(p.name, ' ', p.lastname)) from Person p")
+    List<String> findAllFullNamesConcatLower();
+
+    @Query("select upper(p.name || ' ' || p.lastname) from Person p")//    opcion 2
+    List<String> findAllFullNamesConcatUpper();
+
+    @Query("select p.id, upper(concat(p.name, ' ', p.lastname)), lower(p.programmingLanguage) from Person p")
+    List<String> findAllPersonDataListCase();
+
+    //  between : rango de valores
+    @Query("select p from Person p where p.id between :initial and :end")
+    List<Person> findBetweenById(Long initial, Long end);
 }

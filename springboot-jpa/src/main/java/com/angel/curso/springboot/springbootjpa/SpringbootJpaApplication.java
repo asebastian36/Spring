@@ -1,5 +1,6 @@
 package com.angel.curso.springboot.springbootjpa;
 
+import com.angel.curso.springboot.springbootjpa.dto.PersonDto;
 import com.angel.curso.springboot.springbootjpa.entities.Person;
 import com.angel.curso.springboot.springbootjpa.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,49 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        personalizedMixQueries();
+        personalizedQueriesBetween();
+    }
+
+    @Transactional(readOnly = true)
+    public void personalizedQueriesBetween() {
+        List<Person> elements = repository.findBetweenById(2L, 4L);
+        elements.forEach(System.out::println);
+    }
+
+    @Transactional(readOnly = true)
+    public void personalizedQueriesConcatUpperAndLower() {
+        List<String> upper = repository.findAllFullNamesConcatUpper();
+        upper.forEach(System.out::println);
+
+        List<String> lower = repository.findAllFullNamesConcatLower();
+        lower.forEach(System.out::println);
+
+        List<String> data = repository.findAllPersonDataListCase();
+        data.forEach(System.out::println);
+    }
+
+    @Transactional(readOnly = true)
+    public void personalizedQueriesConcat() {
+        List<String> fullNames = repository.findAllFullNamesConcat();
+        fullNames.forEach(System.out::println);
+    }
+
+    @Transactional(readOnly = true)
+    public void personalizedQueriesDistinc() {
+        //  para obtener todos los nombres
+        List<String> names = repository.findAllNames();
+        names.forEach(System.out::println);
+
+        //  para obtener todos los nombres sin que se repitan
+        List<String> namesDistinc = repository.findAllNamesDistinc();
+        namesDistinc.forEach(System.out::println);
+
+        //  para obtener todos los lenguajes sin que se repitan
+        List<String> languageDistinc = repository.findAllLanguageDistinc();
+        languageDistinc.forEach(System.out::println);
+        
+        Long count = repository.findAllLanguageDistincCount();
+        System.out.println("count = " + count);
     }
 
     @Transactional(readOnly = true)
@@ -29,9 +72,12 @@ public class SpringbootJpaApplication implements CommandLineRunner {
         List<Object[]> personsList = repository.findAllMix();
         personsList.forEach(element -> System.out.println("ProgrammingLanguage = " + element[1] + " Person: " + element[0]));
 
+        //  metodos para regresar informacion especifica (name, lastname) de la entidad
         List<Person> persons = repository.findAllClassPerson();
         persons.forEach(System.out::println);
 
+        List<PersonDto> dtos = repository.findAllDtoPerson();
+        dtos.forEach(System.out::println);
     }
 
     @Transactional(readOnly = true)
