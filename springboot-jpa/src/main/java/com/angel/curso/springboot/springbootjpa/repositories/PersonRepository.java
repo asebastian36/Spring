@@ -105,4 +105,60 @@ public interface PersonRepository extends CrudRepository<Person, Long> {
     //  between : rango de valores
     @Query("select p from Person p where p.id between :initial and :end")
     List<Person> findBetweenById(Long initial, Long end);
+
+    @Query("select p from Person p where  p.name between :initial and :end")
+    List<Person> findAllBetweenChars(String initial, String end);
+
+    //  order by ordena de manera ascendente por defecto y segun el campo
+    @Query("select p from Person p where p.id between :initial and :end order by p.name asc, p.lastname desc")
+    List<Person> findBetweenByIdOrderByName(Long initial, Long end);
+
+    //  para cambiar el tipo de orden se usan asc y desc, tambien funciona para mas de un campo
+    //  cuando hay dos campos el segundo criterio se aplica si tienen el nombre igual
+    @Query("select p from Person p where  p.name between :initial and :end order by p.name, p.lastname desc")
+    List<Person> findAllBetweenCharsOrderByName(String initial, String end);
+
+    //  order by de manera automatica
+    List<Person> findByIdBetweenOrderByNameAsc(Long initial, Long end);
+    List<Person> findByNameBetweenOrderByLastnameDesc(String initial, String end);
+    List<Person> findAllByOrderByNameDesc();
+
+    //  funciones de agregacion
+    @Query("select count(p) from Person p")
+    Long getTotalPerson();
+
+    @Query("select min(p.id) from Person p")
+    Long getMinId();
+
+    @Query("select max(p.id) from Person p")
+    Long getMaxId();
+
+    @Query("select p.name, length(p.name) from Person p ")
+    public List<Object[]> getPersonNameLength();
+
+    @Query("select min(length(p.name)) from Person p")
+    public Long getMinLengtName();
+
+    @Query("select max(length(p.name)) from Person p")
+    public Long getMaxLengtName();
+
+    @Query("select min(p.id), max(p.id), sum(p.id), avg(length(p.name)), count(p.id) from Person p")
+    public Object getResumeAggregationFunction();
+
+    //  sub consultas
+
+    //  obtiene el nombre y su longitud del registro con el menor tamano
+    @Query("select p.name, length(p.name) from Person p where length(p.name) = (select min(length(p.name)) from Person p)")
+    public List<Object[]> getShorterName();
+
+    @Query("select p from Person p where p.id = (select max(p.id) from Person p)")
+    public Optional<Person> getLastRegister();
+
+    //  where in
+
+    @Query("select p from Person p where p.id in :ids")
+    public List<Person> getPersonByIds(List<Long> ids);
+
+    @Query("select p from Person p where p.id not in :ids")
+    public List<Person> getPersonExcludesIds(List<Long> ids);
 }

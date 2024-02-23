@@ -22,13 +22,82 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        personalizedQueriesBetween();
+        whereIn();
+    }
+
+    @Transactional(readOnly = true)
+    public void whereIn() {
+        List<Person> persons = repository.getPersonByIds(Arrays.asList(1L, 2L, 5L));
+        persons.forEach(System.out::println);
+
+        persons = repository.getPersonExcludesIds(Arrays.asList(1L, 2L, 5L));
+        persons.forEach(System.out::println);
+    }
+
+    @Transactional(readOnly = true)
+    public void subQueries() {
+        List<Object[]> results = repository.getShorterName();
+        results.forEach(element -> System.out.println("Name:" + element[0] + ", length:" + element[1]));
+        
+        Optional<Person> optional = repository.getLastRegister();
+
+        if (optional.isPresent()) {
+            Person person = optional.get();
+            System.out.println("person = " + person);
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public void personalizedQueriesFunctionAggregation() {
+        Long count = repository.getTotalPerson();
+        System.out.println("count = " + count);
+        
+        Long min = repository.getMinId();
+        System.out.println("min = " + min);
+        
+        Long max = repository.getMaxId();
+        System.out.println("max = " + max);
+
+        List<Object[]> names = repository.getPersonNameLength();
+        names.forEach(arr -> System.out.println("Name:" + arr[0] + ", " + "Length:" + arr[1]));
+
+        Long minLengthName = repository.getMinLengtName();
+        System.out.println("minLengthName = " + minLengthName);
+
+        Long maxLengthName = repository.getMaxLengtName();
+        System.out.println("maxLengthName = " + maxLengthName);
+
+        //  resumen de funciones de agregacion
+        Object[] resume = (Object[]) repository.getResumeAggregationFunction();
+        System.out.println("min:" + resume[0] + ", max:" + resume[1] + ", sum:" + resume[2] + ", avg:" + resume[3] + ", count:" + resume[4]);
+    }
+
+    @Transactional(readOnly = true)
+    public void personalizedQueriesOrderBy() {
+        List<Person> elements = repository.findBetweenByIdOrderByName(2L, 4L);
+        elements.forEach(System.out::println);
+
+        List<Person> persons = repository.findAllBetweenCharsOrderByName("A", "D");
+        persons.forEach(System.out::println);
+
+        //  automaticos
+        List<Person> results = repository.findByIdBetweenOrderByNameAsc(3L, 5L);
+        results.forEach(System.out::println);
+
+        List<Person> objs = repository.findByNameBetweenOrderByLastnameDesc("A", "Z");
+        objs.forEach(System.out::println);
+
+        List<Person> list = repository.findAllByOrderByNameDesc();
+        list.forEach(System.out::println);
     }
 
     @Transactional(readOnly = true)
     public void personalizedQueriesBetween() {
         List<Person> elements = repository.findBetweenById(2L, 4L);
         elements.forEach(System.out::println);
+
+        List<Person> persons = repository.findAllBetweenChars("A", "C");
+        persons.forEach(System.out::println);
     }
 
     @Transactional(readOnly = true)
