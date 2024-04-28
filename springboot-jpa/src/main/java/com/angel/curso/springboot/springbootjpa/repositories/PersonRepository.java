@@ -161,4 +161,7 @@ public interface PersonRepository extends CrudRepository<Person, Long> {
 
     @Query("select p from Person p where p.id not in :ids")
     public List<Person> getPersonExcludesIds(List<Long> ids);
+
+    @Query("select p from Person p")
+    List<Person> getAll();
 }

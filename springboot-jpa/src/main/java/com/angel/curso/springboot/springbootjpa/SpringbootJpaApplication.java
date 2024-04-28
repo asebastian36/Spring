@@ -22,7 +22,8 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        whereIn();
+        list();
+        update();
     }
 
     @Transactional(readOnly = true)
@@ -201,14 +202,14 @@ public class SpringbootJpaApplication implements CommandLineRunner {
         person.ifPresent(p -> {
             System.out.println("Registro encontrado: " + p);
 
-            System.out.println("Ingrese el lenguaje de programacion: ");
-            String lenguaje = sc.next();
-
             System.out.println("Ingrese el nombre: ");
-            String nombre = sc.next();
+            String nombre = sc.nextLine();
 
             System.out.println("Ingrese el apellido: ");
-            String apellido = sc.next();
+            String apellido = sc.nextLine();
+
+            System.out.println("Ingrese el lenguaje de programacion: ");
+            String lenguaje = sc.nextLine();
 
             p.setName(nombre);
             p.setLastname(apellido);
@@ -223,8 +224,14 @@ public class SpringbootJpaApplication implements CommandLineRunner {
     @Transactional
     public void terminal() {
         Scanner sc = new Scanner(System.in);
+        System.out.println("Create");
+        System.out.println("Name: ");
         String name = sc.next();
+
+        System.out.println("Lastname: ");
         String lastname = sc.next();
+
+        System.out.println("ProgrammingLanguage: ");
         String programmingLanguage = sc.next();
 
         Person person = new Person(name, lastname, programmingLanguage);
@@ -267,5 +274,8 @@ public class SpringbootJpaApplication implements CommandLineRunner {
         personsValues.forEach(person -> {
             System.out.println(person[0] + " " + person[1] + " es un menso en todo menos en, " + person[2]);
         });
+
+        List<Person> list = repository.getAll();
+        list.forEach(System.out::println);
     }
 }

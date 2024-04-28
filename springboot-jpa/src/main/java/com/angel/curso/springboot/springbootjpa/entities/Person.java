@@ -16,6 +16,9 @@ public class Person {
     @Column(name = "programming_language")
     private String programmingLanguage;
 
+    @Embedded
+    private final Audit audit = new Audit();
+
     public Person() {
 
     }
@@ -68,6 +71,7 @@ public class Person {
         return "id=" + id +
                 ", name='" + name + '\'' +
                 ", lastname='" + lastname + '\'' +
-                ", programmingLanguage='" + programmingLanguage + '\'';
+                ", programmingLanguage='" + programmingLanguage + '\'' +
+                ", " + audit + '\'';
     }
 }

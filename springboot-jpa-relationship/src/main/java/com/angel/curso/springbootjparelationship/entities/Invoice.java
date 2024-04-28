@@ -2,6 +2,8 @@ package com.angel.curso.springbootjparelationship.entities;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "invoices")
 public class Invoice {
@@ -12,6 +14,10 @@ public class Invoice {
     private String description;
     private Long total;
 
+    @ManyToOne
+    @JoinColumn(name = "id_client")
+    private Client client;
+
     public Invoice() {
 
     }
@@ -19,6 +25,14 @@ public class Invoice {
     public Invoice(String description, Long total) {
         this.description = description;
         this.total = total;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public Long getId() {
@@ -46,11 +60,24 @@ public class Invoice {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Invoice invoice = (Invoice) o;
+        return Objects.equals(id, invoice.id) && Objects.equals(description, invoice.description) && Objects.equals(total, invoice.total);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, description, total);
+    }
+
+    @Override
     public String toString() {
-        return "Invoice{" +
+        return "{" +
                 "id=" + id +
                 ", description='" + description + '\'' +
-                ", total=" + total +
+                ", total=" + total  + '\''+
                 '}';
     }
 }
