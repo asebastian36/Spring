@@ -77,6 +77,7 @@ public class Client {
 
     public void setClientDetails(ClientDetails clientDetails) {
         this.clientDetails = clientDetails;
+        clientDetails.setClient(this);
     }
 
     public Set<Address> getAddresses() {
@@ -100,6 +101,11 @@ public class Client {
         this.getInvoices().remove(invoice);
         invoice.setClient(null);
         return this;
+    }
+
+    public void removeClientDetails(ClientDetails clientDetails) {
+        clientDetails.setClient(null);
+        this.clientDetails = null;
     }
 
     @Override
