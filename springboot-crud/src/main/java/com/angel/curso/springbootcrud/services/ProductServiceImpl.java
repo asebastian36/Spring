@@ -1,46 +1,47 @@
-package services;
+package com.angel.curso.springbootcrud.services;
 
-import entities.Product;
+import com.angel.curso.springbootcrud.entities.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import repositories.ProductRepository;
-
+import com.angel.curso.springbootcrud.repositories.ProductRepository;
 import java.util.*;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductRepository repository;
 
     @Transactional(readOnly = true)
     @Override
     public List<Product> findAll() {
-        return (List<Product>) productRepository.findAll();
+        return (List<Product>) repository.findAll();
     }
 
     @Transactional(readOnly = true)
     @Override
     public Optional<Product> findById(Long id) {
-        return productRepository.findById(id);
+        return repository.findById(id);
     }
 
     @Transactional
     @Override
     public Product save(Product product) {
-        return productRepository.save(product);
+        return repository.save(product);
     }
 
     @Transactional
     @Override
     public void deleteById(Long id) {
-        productRepository.deleteById(id);
+        repository.deleteById(id);
     }
 
     @Transactional
     @Override
-    public void delete(Product product) {
-        productRepository.delete(product);
+    public Optional<Product> delete(Product product) {
+        Optional<Product> optionalProduct = repository.findById(product.getId());
+        optionalProduct.ifPresent(productDb -> repository.delete(productDb));
+        return optionalProduct;
     }
 }

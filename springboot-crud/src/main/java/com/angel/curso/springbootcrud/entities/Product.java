@@ -1,4 +1,4 @@
-package entities;
+package com.angel.curso.springbootcrud.entities;
 
 import jakarta.persistence.*;
 
