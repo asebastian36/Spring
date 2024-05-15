@@ -33,6 +33,21 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
+    public Optional<Product> update(Long id, Product product) {
+        Optional<Product> optionalProduct = repository.findById(id);
+        if (optionalProduct.isPresent()) {
+            Product productDb = optionalProduct.orElseThrow();
+            productDb.setName(product.getName());
+            productDb.setDescription(product.getDescription());
+            productDb.setPrice(product.getPrice());
+            productDb.setSku(product.getSku());
+            return Optional.of(repository.save(productDb));
+        }
+        return optionalProduct;
+    }
+
+    @Transactional
+    @Override
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
@@ -43,5 +58,11 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> optionalProduct = repository.findById(product.getId());
         optionalProduct.ifPresent(productDb -> repository.delete(productDb));
         return optionalProduct;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public boolean existsBySku(String sku) {
+        return repository.existBySku(sku);
     }
 }

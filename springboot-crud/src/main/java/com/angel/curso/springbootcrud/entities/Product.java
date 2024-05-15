@@ -1,8 +1,10 @@
 package com.angel.curso.springbootcrud.entities;
 
+import com.angel.curso.springbootcrud.validation.IsExistDb;
+import com.angel.curso.springbootcrud.validation.IsRequired;
 import jakarta.persistence.*;
-
-import java.util.Objects;
+import jakarta.validation.constraints.*;
+import java.util.*;
 
 @Entity
 @Table(name = "products")
@@ -11,14 +13,30 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotBlank(message = "{NotBlank.product.name}")
+    @Size(max = 45)
     private String name;
 
-    @Column(nullable = false)
+    @Min(value = 100, message = "{Min.product.price}")
+    @NotNull(message = "{NotNull.product.price}")
     private double price;
 
-    @Column(nullable = false)
+    //  uso de validacion con anotacion personalizada
+    @IsRequired
+    @Size(max = 245)
     private String description;
+
+    @IsExistDb
+    @IsRequired
+    private String sku;
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
 
     public Long getId() {
         return id;
