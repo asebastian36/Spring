@@ -13,7 +13,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "{NotBlank.product.name}")
+    //  se establecen en los campos reglas de validacion
+    @NotBlank(message = "{NotBlank.product.name}")//    cambio del mensaje predeterminado por uno personalizado
     @Size(max = 45)
     private String name;
 

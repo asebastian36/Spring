@@ -6,13 +6,16 @@ import org.springframework.validation.*;
 
 @Component
 public class ProductValidation implements Validator {
+    //  clase para validar de manera personalizada
     @Override
     public boolean supports(Class<?> clazz) {
+        //  metodo para especificar el objeto a validar
         return Product.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
+        //  aqui se hace la validacion target es el objeto a validar y errors es padre de BindingResult
         Product product = (Product) target;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", null, "no puede estar vacio, acaso no tienes nombre!");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", null, "no puede estar vacio, acaso no tiene descripcion!");

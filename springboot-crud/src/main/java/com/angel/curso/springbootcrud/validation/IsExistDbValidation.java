@@ -4,8 +4,9 @@ import com.angel.curso.springbootcrud.services.ProductService;
 import jakarta.validation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
+
+//  en esta clase se hace la validacion y en la interfaz se llama este codigo
 @Component
 public class IsExistDbValidation implements ConstraintValidator<IsExistDb, String> {
 

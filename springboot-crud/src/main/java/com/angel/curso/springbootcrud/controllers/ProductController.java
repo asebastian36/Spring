@@ -32,9 +32,13 @@ public class ProductController {
         return ResponseEntity.notFound().build();
     }
 
+    //  se valida en create y update porque es donde se reciben datos, BindingResult es donde se reciben
+    //  los errores para mandar los mensajes de error, nota el binding result debe estar despues del objeto a cachar
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody Product product, BindingResult result) {
+        //  aqui se hace uso de la validacion personalizada
 //        validation.validate(product, result);
+        //  aqui se inicia la creacion de json con los mensajes de error
         if (result.hasFieldErrors()) {
             return validation(result);
         }
@@ -68,7 +72,9 @@ public class ProductController {
         return ResponseEntity.notFound().build();
     }
 
+    //  metodo que genera los mensajes de error de la validacion
     private ResponseEntity<?> validation(BindingResult result) {
+        //  el ? es porque la respuesta puede ser de tipo product o error en caso de fallo y asi puede recibir cualquiera de los dos tipos
         Map<String, String> errors = new HashMap<>();
         result.getFieldErrors().forEach(error -> {
             errors.put(error.getField(), "El campo " + error.getField() + " " +error.getDefaultMessage());

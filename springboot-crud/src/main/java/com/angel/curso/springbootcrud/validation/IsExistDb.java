@@ -3,6 +3,7 @@ package com.angel.curso.springbootcrud.validation;
 import jakarta.validation.*;
 import java.lang.annotation.*;
 
+//  interfaz para crear la anotacion de validacion
 @Constraint(validatedBy = IsExistDbValidation.class)
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
