@@ -249,9 +249,3 @@ Consultas personalizadas
 @Query("select c from Client c left join fetch c.addresses where c.id = :id")
 Optional<Client> findOneWithAdresses(Long id);
 ```
-
-Propiedad del .properties
-
-```properties
-
-```

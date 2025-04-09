@@ -19,11 +19,11 @@ public class AppController {
     @GetMapping
     public String index() {
         //  simulacion de error
-        //  int value = 100 / 0;
+        int value = 100 / 0;
 
         //  otro error
         //  int value = Integer.parseInt("10x");
-        return "Ok 200";
+        return "Ok 200 el valor es: " + value;
     }
 
     @GetMapping("/show/{id}")

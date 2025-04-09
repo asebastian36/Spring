@@ -12,33 +12,34 @@ import java.util.*;
 @Component
 public class GreetingAspect {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    String name = "[GreetingAspect]";
 
     @Before("GreetingServicePointcuts.greetingLoggerPointCut()")
     public void loggerBefore(JoinPoint joinPoint) {
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
-        logger.info("Before: " + method + " con los argumentos " + args);
+        logger.info(name.concat("Before: " + method + " con los argumentos " + args));
     }
 
     @AfterThrowing("GreetingServicePointcuts.greetingLoggerPointCut()")
     public void loggerAfterThrowing(JoinPoint joinPoint) {
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
-        logger.info("After Throwing: " + method + " con los argumentos " + args);
+        logger.info(name.concat("After Throwing: " + method + " con los argumentos " + args));
     }
 
     @AfterReturning("GreetingServicePointcuts.greetingLoggerPointCut()")
     public void loggerAfterReturning(JoinPoint joinPoint) {
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
-        logger.info("After Returning: " + method + " con los argumentos " + args);
+        logger.info(name.concat("After Returning: " + method + " con los argumentos " + args));
     }
 
     @After("GreetingServicePointcuts.greetingLoggerPointCut()")
     public void loggerAfter(JoinPoint joinPoint) {
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
-        logger.info("After: " + method + " con los argumentos " + args);
+        logger.info(name.concat("After: " + method + " con los argumentos " + args));
     }
 
     @Around("GreetingServicePointcuts.greetingLoggerPointCut()")
@@ -48,12 +49,12 @@ public class GreetingAspect {
         Object result = null;
 
         try {
-            logger.info("El metodo " + method + "() " + "con los parametros " + args);
+            logger.info(name.concat("El metodo " + method + "() " + "con los parametros " + args));
             result = proceeding.proceed();
-            logger.info("El retorno del metodo es: " + result);
+            logger.info(name.concat("El retorno del metodo es: " + result));
             return result;
         } catch (Throwable e) {
-            logger.error("Error en la llamada del metodo " + method + "()");
+            logger.error(name.concat("Error en la llamada del metodo " + method + "()"));
             throw e;
         }
     }

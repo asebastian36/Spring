@@ -12,7 +12,7 @@ public class AppController {
     public ResponseEntity<?> index(HttpServletRequest request) {
         Map<String, Object> data = new HashMap<>();
         data.put("title", "Bienvenidos al sistema de atencion a clientes");
-        data.put("time", new Date());
+        data.put("time", new Date().toString());
         data.put("message", request.getAttribute("message"));
         data.put("hour", request.getAttribute("hour"));
         return ResponseEntity.ok(data);

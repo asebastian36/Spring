@@ -18,7 +18,7 @@ La inyección de dependencias se puede implementar de varias maneras, incluyendo
 * **Inyección por setter:** El cliente llama a un método setter del cliente para inyectar el proveedor.
 * **Inyección por campo:** El contenedor de inyección de dependencias inyecta el proveedor directamente en el campo del cliente.
 
-Spring Framework proporciona soporte para la inyección de dependencias. Spring utiliza un contenedor de inyección de dependencias llamado ApplicationContext para crear y administrar las dependencias de las aplicaciones Spring.
+Spring Framework proporciona soporte para la inyección de dependencias. Spring utiliza un contenedor de inyección de dependencias llamado `ApplicationContext` para crear y administrar las dependencias de las aplicaciones Spring.
 
 En Spring, la inyección de dependencias se puede realizar mediante anotaciones. Las anotaciones de Spring permiten a los desarrolladores especificar las dependencias que deben inyectarse en los componentes.
 
@@ -82,8 +82,6 @@ Por defecto, los endpoints de Actuator están expuestos y no requieren autentica
 * **Autenticación:** Requerir una contraseña o token para acceder a los endpoints.
 * **Autorización:** Controlar qué usuarios tienen acceso a cada endpoint.
 * **Limitar la exposición:** Deshabilitar los endpoints que no se necesitan o restringir su acceso a determinadas direcciones IP.
-
-**En resumen, Spring Boot Actuator es una herramienta valiosa para monitorear y administrar aplicaciones Spring Boot, mejorando su observabilidad, depuración y rendimiento. Recuerda implementar siempre medidas de seguridad para proteger los endpoints expuestos.**
 
 ## Principio de inmutabilidad
 
@@ -224,7 +222,7 @@ La anotación `@Repository` se utiliza para indicar que una clase es un reposito
 
 Las anotaciones `@Service` y `@Repository` tienen las siguientes ventajas:
 
-* **Mejoran la organización del código:** Las anotaciones permiten organizar el código de una aplicación en capas, lo que facilita la comprensión y la mantenimiento del código.
+* **Mejoran la organización del código:** Las anotaciones permiten organizar el código de una aplicación en capas, lo que facilita la comprensión y el mantenimiento del código.
 * **Facilitan la inyección de dependencias:** Las anotaciones permiten inyectar los servicios y los repositorios en otras clases, lo que facilita el desarrollo de aplicaciones desacopladas.
 
 La siguiente es una clase de ejemplo que utiliza la anotación `@Service`:
@@ -253,8 +251,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 ```
 
 En esta clase, la anotación `@Repository` indica que la clase `UserRepository` es un repositorio. La clase `UserRepository` implementa la interfaz `JpaRepository`, que proporciona métodos para acceder a los datos de la base de datos.
-
-En general, las anotaciones `@Service` y `@Repository` son herramientas útiles para organizar el código de una aplicación y facilitar la inyección de dependencias.
 
 ## RequestScope
 
