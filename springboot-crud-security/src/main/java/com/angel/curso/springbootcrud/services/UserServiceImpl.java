@@ -10,7 +10,6 @@ import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
-
     @Autowired
     private UserRepository repository;
 
@@ -47,5 +46,10 @@ public class UserServiceImpl implements UserService {
         //  encriptacion del password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return repository.save(user);
+    }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return repository.existsByUsername(username);
     }
 }

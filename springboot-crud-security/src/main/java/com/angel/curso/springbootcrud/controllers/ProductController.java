@@ -76,6 +76,7 @@ public class ProductController {
     private ResponseEntity<?> validation(BindingResult result) {
         //  el ? es porque la respuesta puede ser de tipo product o error en caso de fallo y asi puede recibir cualquiera de los dos tipos
         Map<String, String> errors = new HashMap<>();
+
         result.getFieldErrors().forEach(error -> {
             errors.put(error.getField(), "El campo " + error.getField() + " " +error.getDefaultMessage());
         });
