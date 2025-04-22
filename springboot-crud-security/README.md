@@ -62,3 +62,19 @@ Este fragmento de código configura Spring Security para tu aplicación. Permite
 
 Configuracion para dejar publica la ruta /users con todos sus endpoints, todo lo demas requiere autenticacion, se deshabilito la seguridad del token csrf para evitar vulnerabilidades y se habilito el sessionManagement para que la sesion http no tenga estado (para dejar la autenticacion solo en el token).
 
+## Acceder a la API protegida
+
+> Nota el token tiene limite de tiempo, una vez expirado, se tiene que reiniciar la aplicacion
+
+1. Acceder como usuario y obtener un token (por si acaso de tipo `ADMIN`):
+[Login](./images/obtener-token.png)
+2. Ingresar al endpoint protegido ya sea colocando el token en las cabeceras o en la opcion autorizacion:
+
+> Opcion 1
+
+[Con cabeceras](./images/opcion-1.png)
+
+> Opcion 2
+
+[Con autorizacion](./images/opcion-2.png)
+
