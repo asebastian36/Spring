@@ -5,12 +5,14 @@ import com.angel.curso.springbootcrud.entities.Product;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.angel.curso.springbootcrud.services.ProductService;
 import java.util.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200", originPatterns = "*")
 @RequestMapping("/api/products")
 public class ProductController {
 
@@ -21,11 +23,13 @@ public class ProductController {
 //    private ProductValidation validation;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public List<Product> findAll() {
         return service.findAll();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         Optional<Product> optionalProduct = service.findById(id);
         if (optionalProduct.isPresent()) return ResponseEntity.ok(optionalProduct.orElseThrow());
@@ -35,6 +39,7 @@ public class ProductController {
     //  se valida en create y update porque es donde se reciben datos, BindingResult es donde se reciben
     //  los errores para mandar los mensajes de error, nota el binding result debe estar despues del objeto a cachar
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> create(@Valid @RequestBody Product product, BindingResult result) {
         //  aqui se hace uso de la validacion personalizada
 //        validation.validate(product, result);
@@ -46,6 +51,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> update(@Valid @RequestBody Product product, BindingResult result, @PathVariable Long id) {
 //        validation.validate(product, result);
         if (result.hasFieldErrors()) {
@@ -62,6 +68,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         Optional<Product> optionalProduct = service.findById(id);
         if (optionalProduct.isPresent()) {
